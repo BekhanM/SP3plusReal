@@ -1,0 +1,58 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+object StreamingService
+
+object User
+
+object Playback
+object MyList
+object MoviesWatched
+
+object Series
+object Seasons
+object Episodes
+
+object Movies
+
+object Library
+object Rating
+object ReleaseDate
+
+object Genre
+object Action
+object Comedy
+object Drama
+object Romance
+object Horror
+object SciFi
+object Documentary
+
+StreamingService *-- User
+
+User *-- MoviesWatched
+User *-- MyList
+User *-- Playback
+
+StreamingService *-- Library
+Library <|-- Series
+Library <|-- Movies
+Series *-- Seasons
+Seasons *-- Episodes
+Series *-- Genre
+Series *-- Rating
+Series *-- ReleaseDate
+
+Genre *-- Action
+Genre *-- Comedy
+Genre *-- Drama
+Genre *-- Romance
+Genre *-- Horror
+Genre *-- SciFi
+Genre *-- Documentary
+
+Movies *-- Genre
+Movies *-- Rating
+Movies *-- ReleaseDate
+
+@enduml
