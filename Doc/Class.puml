@@ -1,4 +1,5 @@
 @startuml
+
 'https://plantuml.com/class-diagram
 
 'Pakker, model og util
@@ -6,70 +7,161 @@
 
 package "util"
 {
-Class FileIo
-FileIo :  - Scanner scanner
-FileIo : + List <User> readUserData(String path)
-FileIo : + void saveUserData(List <User> users)
-FileIo : + String [] readLibraryData(String path, int length)
 
-Class TextUI
-TextUI : - Scanner scanner
-TextUI : + String getInput(String msg)
-TextUI : + void displayMessage(String msg)
+Interface IO{
+- Scanner scanner
+- File file
++ List <User> readUserData(String path)
++ void saveUserData(List <User> users)
++ List<String> readMovieData(String path, int length)
++ List<String> readSeriesData(String path, int length)
+}
+
+Class FileIO{
+- Scanner scanner
+- File file
++ List <User> readUserData(String path)
++ void saveUserData(List <User> users)
++ List<String> readMovieData(String path, int length)
++ List<String> readSeriesData(String path, int length)
+}
+
+Class DatabaseIO{
+- Scanner scanner
+- File file
++ List <User> readUserData(String path)
++ void saveUserData(List <User> users)
++ List<String> readMovieData(String path, int length)
++ List<String> readSeriesData(String path, int length)
+}
+
+
+Class TextUI{
+- Scanner scanner
++ String getInput(String msg)
++ void displayMessage(String msg)
+}
+
+Class DataValidator{
++ String validatePassword()
++ String validateUserName()
+}
+
 }
 
 package "model"
 {
-Interface Library
-Library : + int getTitle()
-Library : + int getRating()
-Library : + int getReleaseDate()
-Library : + String getGenre()
-
-Library <|-- Movies
-Library <|-- Series
-
-Class Movies
-Movies : - String title
-Movies : - String genre
-Movies : - int rating
-Movies : - int releaseDate
-
-Class Series
-Series : - String title
-Series : - String genre
-Series : - int rating
-Series : - int releaseDate
-
-Class User
-User : - String username
-User : - String password
-User : - List<Library> watchedLibrary
-User : - List<Library> myLibrary
-User : + void addToMyList(Library library)
-User : + void removeFromMyList(Library library)
-User : + void playMovie()
+Abstract Class Media{
+- String title
+- String genre
+- double rating
+- int releaseDate
++ String getTitle()
++ double getRating()
++ int getReleaseDate()
++ String getGenre()
 }
 
-Class StreamingService
-StreamingService : - FileIo io
-StreamingService : - TextUI ui
-StreamingService : - List<User> users
-StreamingService : + startMenu()
-StreamingService : + mainMenu()
-StreamingService : + void Login()
-StreamingService : + void Logout()
-StreamingService : + void addUser(User user)
-StreamingService : + void removeUser(User user)
-StreamingService : + List<Library> searchLibrary(String search)
+Class Movie{
+- String title
+- String genre
+- double rating
+- int releaseDate
++ String getTitle()
++ double getRating()
++ int getReleaseDate()
++ String getGenre()
+}
+
+Class Series{
+- String title
+- String genre
+- double rating
+- int releaseDate
+- int season
+- int episode
++ String getTitle()
++ double getRating()
++ int getReleaseDate()
++ String getGenre()
++ int getEpisodes()
++ int getSeason()
+}
+
+Class User{
+- String username
+- String password
+- List<Media> watchedList
+- List<Media> media
+- List<Media> myList
++ void addToMyList(Media media)
++ void removeFromMyList(Media media))
+}
+
+
+Class MyList{
+- List<Media> myList
++ addToMyList(Media media)
++ removeFromMyList(Media media)
++ getMyList()
+}
+
+Class WatchedList{
+- List <Media> watchedList
++ addToWatchedList(Media media)
++ removeFromWatchedList(Media media))
+
+}
+
+}
+
+Class StreamingService{
+- IO io
+- TextUI ui
+- List<Content> content
+- List<User> users
++ void setup()
++ void startMenu()
++ void mainMenu()
++ void Login()
++ void Logout()
++ void addUser(User user)
++ void removeUser(User user)
++ void searchAll()
++ void searchByName()
++ void searchByDateOfRelease()
++ void searchByRating()
++ void searchByGenre()
+}
+
+Class Content{
+
+- List<Media> media
+
++ addMovie()
++ addSeries()
++ removeMovie()
++ removeSeries()
+}
 
 Class Main
 Main : + static void main (String [] args)
 
 Main *-- StreamingService
-StreamingService *-- FileIo
+StreamingService *-- IO
 StreamingService *-- User
 StreamingService *-- TextUI
-User *-- Library
+
+StreamingService *-- Content
+User *-- Media
+TextUI *-- DataValidator
+FileIO *-- Content
+User *-- MyList
+User *-- WatchedList
+Media *-- Content
+Media <|-- Movie
+Media <|-- Series
+IO <|-- FileIO
+IO <|-- DatabaseIO
 
 @enduml
