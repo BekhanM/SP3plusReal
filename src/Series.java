@@ -32,14 +32,8 @@ public class Series extends Media {
     }
 
     @Override
-    public String toString() {
-        return "Series{" +
-                "season=" + season +
-                ", episode=" + episode +
-                ", title='" + title + '\'' +
-                ", genre='" + genre + '\'' +
-                ", rating=" + rating +
-                ", releaseDate=" + releaseDate +
-                '}';
+    public String toString()
+    {
+        return super.toString() + " Season: " + getSeason() + "Episode: " + getEpisode();
     }
 }
