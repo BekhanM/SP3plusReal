@@ -9,8 +9,6 @@ package "util"
 {
 
 Interface IO{
-- Scanner scanner
-- File file
 + List <User> readUserData(String path)
 + void saveUserData(List <User> users)
 + List<String> readMovieData(String path, int length)
