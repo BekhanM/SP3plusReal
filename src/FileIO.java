@@ -6,9 +6,9 @@ import java.util.Scanner;
 public class FileIO {
 
 
-    //-------------------------Read movies og Series--------------------
+    //-------------------------Read movies--------------------
 
-    public ArrayList<String> readData(String path) {
+    public ArrayList<String> readMovie(String path) {
         ArrayList<String> data = new ArrayList<>();
         //instantier File
         File file = new File(path);
@@ -26,6 +26,6 @@ public class FileIO {
 
         return data;
     }
-
+    //-------------------------Read series--------------------
 
 }

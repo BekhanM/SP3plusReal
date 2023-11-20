@@ -5,8 +5,8 @@ public class Main {
 FileIO fileData = new FileIO();
 
 
-
-
+FileIO fileio = new FileIO(;
+fileio.readMovie("src/100bedstefilm");
         String password = "wsw";
 
         DataValidator dataValidator = new DataValidator();
