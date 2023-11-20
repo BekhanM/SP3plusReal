@@ -21,4 +21,20 @@ public abstract class Media
     {
         return genre;
     }
+
+    public double getRating()
+    {
+        return rating;
+    }
+
+    public int getReleaseDate()
+    {
+        return releaseDate;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Title: " + title + " Genre: " + genre + " Rating: " + rating + " Release Date: " + releaseDate;
+    }
 }
