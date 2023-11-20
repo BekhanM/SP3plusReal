@@ -4,13 +4,13 @@ public class MyList
 {
     ArrayList<Media> myList = new ArrayList<>();
 
-    public void addToMyList()
+    public void addToMyList(Media media)
     {
-        return;
+        myList.add(media);
     }
 
-    public void removeFromMyList()
+    public void removeFromMyList(Media media)
     {
-        return;
+        myList.remove(media);
     }
 }
