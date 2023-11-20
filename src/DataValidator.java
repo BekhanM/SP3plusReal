@@ -3,6 +3,9 @@ import java.util.Scanner;
 
 public class DataValidator {
 
+    Scanner scanner = new Scanner(System.in);
+    TextUI ui = new TextUI();
+
     // Tjekker om en String (password) indeholder minimum et stort bogstav
     public boolean checkUpperCase(String str) {
         char c;
@@ -18,7 +21,7 @@ public class DataValidator {
             if (upperCaseFlag && lowerCaseFlag)
                 return true;
         }
-        System.out.println("Password must contain at least one uppercase letter");
+        ui.displayMessage("Password must contain at least one uppercase letter");
         return false;
     }
 
@@ -28,7 +31,7 @@ public class DataValidator {
         if (str.length() < 129 && str.length() > 7) {
             return true;
         } else {
-            System.out.println("Password must be at least 8 characters long");
+            ui.displayMessage("Password must be at least 8 characters long");
             return false;
         }
     }
@@ -45,11 +48,12 @@ public class DataValidator {
         }
 
         if (!numberFlag) {
-            System.out.println("Password must contain at least one number");
+            ui.displayMessage("Password must contain at least one number");
         }
         return false;
     }
 
+    //tjekker om password opfylder kriterier og returnerer boolean
     public boolean validatePassword(String password) {
         boolean i = checkNumeric(password);
         boolean j = checkLength(password);
@@ -60,5 +64,19 @@ public class DataValidator {
             return false;
         }
     }
-}
 
+    // Skal tjekke om username allerede eksisterer ved at sammenligne indhold i arraylist med ny brugerinput
+    public String validateUsername(ArrayList <User> users) {
+
+        ui.displayMessage("Please write a new username");
+        String userInputUsername = scanner.nextLine();
+
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().contentEquals(userInputUsername)) {
+                ui.displayMessage("This username already exists");
+                userInputUsername = scanner.nextLine();
+            }
+        }
+        return userInputUsername;
+    }
+}

@@ -25,41 +25,40 @@ public class StreamingService {
 
     }
 
-    public void Login(){
+    public void Login() {
 
     }
 
-    public void Logout(){
+    public void Logout() {
 
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
 
     }
 
-    public void removeUser(User user){
+    public void removeUser(User user) {
 
     }
 
-    public void searchAll(){
+    public void searchAll() {
 
     }
 
-    public void searchByName(){
+    public void searchByName() {
 
     }
 
-    public void searchByDateOfRelease(){
+    public void searchByDateOfRelease() {
 
     }
 
-    public void searchByRating(){
+    public void searchByRating() {
 
     }
 
-    public void searchByGenre(){
+    public void searchByGenre() {
 
     }
-
 
 }
