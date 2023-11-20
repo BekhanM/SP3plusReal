@@ -1,16 +1,13 @@
 import java.util.ArrayList;
 
-public class WatchedList
-{
-    ArrayList<Media> watchedList = new ArrayList<>(); // IKKE SIKKER PÅ DET ER EN ARRAYLIST!!!
+public class WatchedList {
+    ArrayList<Media> watchedList = new ArrayList<>();
 
-    public void addToWatchedList()
-    {
-        return;
+    public void addToWatchedList(Media media) {
+        watchedList.add(media);
     }
 
-    public void removeFromWatchedList()
-    {
-        return;
+    public void removeFromWatchedList(Media media) {
+        watchedList.remove(media);
     }
 }
