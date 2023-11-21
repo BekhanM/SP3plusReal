@@ -5,6 +5,8 @@ public class StreamingService {
     private TextUI ui = new TextUI();
     private List<Content> content;
     private List<User> users;
+    TextUI ui = new TextUI;
+    FileIO io = new FileIO;
 
     public StreamingService(FileIO io, TextUI ui, List<Content> content, List<User> users) {
         this.io = io;
