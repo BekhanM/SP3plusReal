@@ -1,16 +1,12 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class FileIO implements IO {
 
 
     @Override
-    public List<String> readUserData() {
+    public ArrayList<String> readUserData() {
         ArrayList<String> userData = new ArrayList<>();
         File file = new File("src/UserBase");
 
@@ -27,23 +23,33 @@ public class FileIO implements IO {
         return userData;
     }
 
-
-    @Override
-    public void saveUserData(List<User> users) {
+    public void saveUserData(ArrayList<User> users) {
         try {
-            FileWriter writer = new FileWriter("UserBase");
-            writer.write("User,Password" + "\n");
-            for (User c : users) {
-                String textTosave = c.getUsername() + "," + c.getPassword();
-                writer.write(textTosave + "\n");
+            File file = new File("src/UserBase");
+            boolean fileExists = file.exists();
+
+            FileWriter writer = new FileWriter(file, true); // true flag for append mode
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
+            // If the file doesn't exist or is empty, add headers
+            if (!fileExists || file.length() == 0) {
+                bufferedWriter.write("Username,Password" + "\n");
             }
-            writer.close();
+
+            // Append new data
+            for (User c : users) {
+                String textToSave = c.getUsername() + "," + c.getPassword();
+                bufferedWriter.write(textToSave + "\n");
+            }
+
+            bufferedWriter.close();
         } catch (IOException e) {
-            System.out.println("noget gik galt ved skrivning til fil");
+            System.out.println("Something went wrong while writing to the file");
         }
     }
 
-    public List<String> readMovieData(){
+
+    public ArrayList<String> readMovieData() {
         ArrayList<String> movieData = new ArrayList<>();
 
         File file = new File("src/100bedstefilm");
@@ -62,7 +68,7 @@ public class FileIO implements IO {
     }
 
     @Override
-    public List<String> readSeriesData(){
+    public ArrayList<String> readSeriesData() {
         ArrayList<String> seriesData = new ArrayList<>();
 
         File file = new File("src/100bedsteserier");

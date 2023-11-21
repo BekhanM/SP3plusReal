@@ -66,17 +66,42 @@ public class DataValidator {
     }
 
     // Skal tjekke om username allerede eksisterer ved at sammenligne indhold i arraylist med ny brugerinput
-    public String validateUsername(ArrayList <User> users) {
+    public boolean checkRegisterUsername(ArrayList<String> users, String enteredUsername) {
 
-        ui.displayMessage("Please write a new username");
-        String userInputUsername = scanner.nextLine();
-
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().contentEquals(userInputUsername)) {
-                ui.displayMessage("This username already exists");
-                userInputUsername = scanner.nextLine();
+        for (String user : users) {
+            String[] userInfo = user.split(",");
+            String username = userInfo[0];
+            if (username.contentEquals(enteredUsername)) {
+                ui.displayMessage("Brugernavn findes, prøv igen ");
+                return false;
             }
         }
-        return userInputUsername;
+        return true;
     }
+
+    public boolean checkLoginUsername(ArrayList<String> users, String enteredUsername) {
+        for (String user : users) {
+            String[] userInfo = user.split(",");
+            String username = userInfo[0];
+            if (username.contentEquals(enteredUsername)) {
+                return true;  // Username exists
+            }
+        }
+        ui.displayMessage("Brugernavn findes ikke, prøv igen ");
+        return false;
+    }
+
+    public boolean checkLoginPassword(ArrayList<String> users, String enteredPassword) {
+        for (String user : users) {
+            String[] userInfo = user.split(",");
+            String password = userInfo[1];
+            if (password.contentEquals(enteredPassword)) {
+                return true;  // Password exists
+            }
+        }
+        ui.displayMessage("Forkert kodeord, prøv igen ");
+        return false;
+    }
+
+
 }
