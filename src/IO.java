@@ -1,15 +1,16 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public interface IO {
 
-    List<String> readUserData();
+    public ArrayList<String> readUserData();
 
-    void saveUserData(List<User> users);
+    public void saveUserData(ArrayList<User> users);
 
-    List<String> readMovieData();
+    public ArrayList<String> readMovieData();
 
-    List<String> readSeriesData();
+    public ArrayList<String> readSeriesData();
 
 }
