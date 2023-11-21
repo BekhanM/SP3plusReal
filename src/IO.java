@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public interface IO {
 
-    List<User> readUserData(String path);
+    List<String> readUserData();
 
     void saveUserData(List<User> users);
 
-    List<String> readMovieData(String path, int length);
+    List<String> readMovieData();
 
-    List<String> readSeriesData(String path, int length);
+    List<String> readSeriesData();
 
 }

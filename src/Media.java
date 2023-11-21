@@ -1,17 +1,24 @@
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Media
 {
     protected String title; // Måske ikke protected kan lige se på det senere
     protected String genre;
     protected double rating;
-    protected int releaseDate;
+    protected String releaseDate;
+    FileIO io = new FileIO();
 
-    public Media(String title,String genre,double rating, int releaseDate) // Super constructor til Movie og Series
+    public Media(String title,String releaseDate, String genre, double rating) // Super constructor til Movie og Series
     {
         this.title = title;
         this.genre = genre;
         this.rating = rating;
         this.releaseDate = releaseDate;
     }
+
+
 
     // Laver getters til klassen
     public String getTitle()
@@ -28,7 +35,7 @@ public abstract class Media
         return rating;
     }
 
-    public int getReleaseDate()
+    public String getReleaseDate()
     {
         return releaseDate;
     }
@@ -39,3 +46,5 @@ public abstract class Media
         return "Title: " + title + " Genre: " + genre + " Rating: " + rating + " Release Date: " + releaseDate;
     }
 }
+
+
