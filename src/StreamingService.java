@@ -28,25 +28,28 @@ public class StreamingService {
 
     public void mainMenu() {
         String i = ui.getInput("Du har følgende valgmuligheder:" +
-                "\n1) Søge efter en bestemt film" +
-                "\n2) Søge alle film i en kategori" +
-                "\n3) Se din liste over sete film" +
-                "\n4) Se din liste over gemte film" +
-                "\n5) logout");
-
-        if (i.equals("1")) {
-            searchByName();
+                "\n1) Vis listen over alle film" +
+                "\n2) Søge efter en bestemt film" +
+                "\n3) Søge alle film i en kategori" +
+                "\n4) Se din liste over sete film" +
+                "\n5) Se din liste over gemte film" +
+                "\n6) logout");
+        if(i.equals("1")){
+            displayMovies();
         }
         if (i.equals("2")) {
-            searchByGenre();
+            searchByName();
         }
         if (i.equals("3")) {
-            displayWatchedList();
+            searchByGenre();
         }
         if (i.equals("4")) {
-            displayMyList();
+            displayWatchedList();
         }
         if (i.equals("5")) {
+            displayMyList();
+        }
+        if (i.equals("6")) {
             logout();
         }
     }
@@ -61,7 +64,6 @@ public class StreamingService {
     }
 
     public void loginPassword(String user) {
-        String userInputUsername = user;
         String userInputPassword = ui.getInput("Kodeord: ");
         if (dataValidator.checkLoginPassword(userData, userInputPassword)) {
             ui.displayMessage("Du er nu logget ind som: " + user);
