@@ -3,9 +3,9 @@ public class Main {
 
         StreamingService streamingService = new StreamingService();
 
-        System.out.println(streamingService.userData);
 
-        streamingService.startMenu();
+        streamingService.searchByName();
+
 
     }
 }
