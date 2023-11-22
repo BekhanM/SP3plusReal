@@ -2,26 +2,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StreamingService {
-    FileIO io = new FileIO();
-    ArrayList<String> userData = io.readUserData();
-    ArrayList<String> movieData = io.readMovieData();
-    ArrayList<String> seriesData = io.readSeriesData();
-    DataValidator dataValidator = new DataValidator();
-    ArrayList<User> users = new ArrayList<>();
+    Movie movie = new Movie("", "", "", 0);
+
+    private List<Movie> movies = movie.movieSeparator();
+    private List<String>genreList = new ArrayList<>();
+    private FileIO io = new FileIO();
+    private ArrayList<String> userData = io.readUserData();
+    private ArrayList<String> movieData = io.readMovieData();
+    private ArrayList<String> seriesData = io.readSeriesData();
+    private DataValidator dataValidator = new DataValidator();
+    private ArrayList<User> users = new ArrayList<>();
     private TextUI ui = new TextUI();
     private List<Content> content;
-
-    public void setup() {
-        ArrayList<String> userData = io.readUserData();
-
-        ArrayList<String> movieData = io.readMovieData();
-
-        ArrayList<String> seriesData = io.readSeriesData();
-
-        DataValidator dataValidator = new DataValidator();
-
-        ArrayList<User> users = new ArrayList<>();
-    }
+    private List<User> myList = new ArrayList<>();
 
     public void startMenu() {
         ui.displayMessage("Hej og velkommen til landets værste streamingtjeneste");
@@ -53,6 +46,7 @@ public class StreamingService {
             searchByName();
         }
         if (i.equals("3")) {
+            displayGenre();
             searchByGenre();
         }
         if (i.equals("4")) {
@@ -135,14 +129,16 @@ public class StreamingService {
         User userToRemove = new User(username, password);
         for (User currentUser : users) {
             if (currentUser.equals(userToRemove)) {
-                for (User user : users) {
-                    users.remove(user);
-                    userData.remove(user.toString());
-                }
             }
+        }
+
+        for (User user : users) {
+            users.remove(user);
+            userData.remove(user.toString());
         }
         io.saveUserData(users);
     }
+
 
     public void displaySeries() {
         //-----------Printer listen af SERIES i en pen format------------
@@ -152,6 +148,30 @@ public class StreamingService {
             System.out.println(s);
 
         }
+    }
+    public void displayGenre(){
+        genreList.add("1: Drama");
+        genreList.add("2: Crime");
+        genreList.add("3: Biography");
+        genreList.add("4: History");
+        genreList.add("5: Romance");
+        genreList.add("6: War");
+        genreList.add("7: Adventure");
+        genreList.add("8: Family");
+        genreList.add("9: Mystery");
+        genreList.add("10: Sport");
+        genreList.add("11: Thriller");
+        genreList.add("12: Music/Musical");
+        genreList.add("13: Sci-Fi");
+        genreList.add("14: Horror");
+        genreList.add("15: Film-Noir");
+        genreList.add("16: Fantasy");
+
+        String output = "";
+        for(int i = 0 ; i < genreList.size();i++){
+            output = output+genreList.get(i)+"\n";
+        }
+        System.out.println(output);
     }
 
     public void displayMovies() {
@@ -170,17 +190,13 @@ public class StreamingService {
 
 
     public void searchByName() {
-        Movie movie = new Movie("", "", "", 0);
-
-        List<Movie> movies = movie.movieSeparator();
-        String input = ui.getInput("Type to search");
 
         for (Movie m : movies) {
+            String input = ui.getInput("Type to search");
             if (m.getTitle().equalsIgnoreCase(input)) {
                 playMethod();
-            } else {
+            }else{
                 searchChoices();
-                ui.displayMessage("Media not found, try again");
                 searchByName();
             }
             break;
@@ -195,9 +211,58 @@ public class StreamingService {
 
     }
 
-    public void searchByGenre() {
+    /*public void searchByGenre() {
+        displayGenre();
+        String input = ui.getInput("Type to search in genre");
 
+        for (Movie m : movies) {
+            if (m.getGenre().equalsIgnoreCase(input)){
+                ui.displayMessage(m.getGenre());
+                playMethod();
+            }else{
+                searchChoices();
+                displayGenre();
+            }
+            break;
+        }
+    }*/
+    public void searchByGenre() {
+        displayGenre();
+        String input = ui.getInput("Type to search in genre");
+        String[] inputGenres = input.split(", "); // Split the user input into an array of genres
+
+        boolean found = false;
+
+        for (Movie m : movies) {
+            String[] movieGenres = m.getGenre().split(", "); // Split movie genres into an array
+            boolean matchFound = false;
+
+            // Check if any movie genre matches any of the input genres
+            for (String genre : inputGenres) {
+                for (String movieGenre : movieGenres) {
+                    if (movieGenre.equalsIgnoreCase(genre)) {
+                        matchFound = true;
+                    }
+                }
+                if (matchFound) {
+                    break;
+                }
+            }
+
+            if (matchFound) {
+                ui.displayMessage(m.getTitle()+m.getGenre());
+                playMethod();
+                found = true;
+            }
+        }
+
+        if (!found) {
+            searchChoices();
+            displayGenre();
+        }
     }
+
+
 
     public void displayWatchedList() {
 
@@ -206,27 +271,30 @@ public class StreamingService {
     public void displayMyList() {
 
     }
-
-    public void playMethod() {
-        ui.displayMessage("Media found" + "\n" + "Do you want to play the media? Y/N");
+    public void playMethod(){
+        ui.displayMessage("Media found" + "\n" + "Pick a function:\n1) Play selected media\n2) Add media to My List\n3) Go back");
         String choice = ui.getInput("");
-
-        if (choice.equalsIgnoreCase("Y")) {
+        if (choice.equals("1")) {
             ui.displayMessage("*Playing media*");
+        }
+        if (choice.equals("2")) {
+            MyList myList1 = new MyList();
+            myList1.addToMyList(null);
 
         }
+        if (choice.equals("3")) {
+            mainMenu();
+        }
     }
+    public void searchChoices(){
+        ui.displayMessage("Media not found"+"\n"+"Do you want to ");
 
-    public void searchChoices() {
-        ui.displayMessage("Media not found" + "\n" + "Do you want to ");
-
-        String input = ui.getInput("1: Display our catalog" + "\n" + "2: Search again" + "\n" + "3: Go back to main menu");
-
-        if (input.equalsIgnoreCase("1")) {
+        String input = ui.getInput("1: Display our catalog"+"\n"+"2: Search again"+"\n"+"3: Go back to main menu");
+        if(input.equalsIgnoreCase("1")){
             displayMovies();
-        } else if (input.equalsIgnoreCase("2")) {
+        }else if(input.equalsIgnoreCase("2")){
             searchByName();
-        } else if (input.equalsIgnoreCase("3")) {
+        }else if(input.equalsIgnoreCase("3")){
             mainMenu();
         }
     }

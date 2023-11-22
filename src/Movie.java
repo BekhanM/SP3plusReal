@@ -7,6 +7,7 @@ public class Movie extends Media
 {
     private List<Movie>movieList = new ArrayList<>();
 
+
     public Movie(String title,String releaseDate, String genre, double rating) // Tar constructor fra Media
     {
         /*super(title, genre, rating, releaseDate);*/
@@ -47,9 +48,6 @@ public class Movie extends Media
         return releaseDate;
     }
 
-
-
-
     public List<Movie> movieSeparator() {
         List<String> data = io.readMovieData();
         for (String s : data) {
@@ -78,5 +76,6 @@ public class Movie extends Media
 
         return super.toString();
     }
+
 
 }
