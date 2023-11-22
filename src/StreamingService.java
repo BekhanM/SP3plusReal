@@ -106,33 +106,30 @@ public class StreamingService {
     }
 
     public void searchAll() {
-        Movie movie = new Movie("", "", "", 0); // Not sure about the default constructor values
 
-        List<Movie> movies = movie.movieSeparator();
-        String input = ui.getInput("Type to search");
-
-        for (Movie m : movies) {
-            if (m.getTitle().equalsIgnoreCase(input)) { //fungerer ikke med toString
-                ui.displayMessage("Media found" + "\n" + "Do you want to play the media? Y/N");
-                String choice = ui.getInput("");
-
-                if (choice.equalsIgnoreCase("Y")) {
-                    ui.displayMessage("*Playing media*");
-                }
-                return; // Exit the method after finding the movie
-            }
-        }
-
-        displayMovies(); // Not sure what this method does; display movies again after unsuccessful search?
-        ui.displayMessage("Media not found, try again");
-        searchAll();
     }
 
 
 
     public void searchByName() {
+        Movie movie = new Movie("", "", "", 0);
 
-    }
+        List<Movie> movies = movie.movieSeparator();
+        String input = ui.getInput("Type to search");
+
+        for (Movie m : movies) {
+            if (m.getTitle().equalsIgnoreCase(input)) {
+                playMethod();
+            }else{
+                    searchChoices();
+                    ui.displayMessage("Media not found, try again");
+                    searchByName();
+                }
+            break;
+                }
+            }
+
+
 
     public void searchByDateOfRelease() {
 
@@ -145,6 +142,28 @@ public class StreamingService {
     public void searchByGenre() {
 
     }
+    public void playMethod(){
+        ui.displayMessage("Media found" + "\n" + "Do you want to play the media? Y/N");
+        String choice = ui.getInput("");
+
+        if (choice.equalsIgnoreCase("Y")) {
+            ui.displayMessage("*Playing media*");
+
+        }
+    }
+        public void searchChoices(){
+        ui.displayMessage("Media not found"+"\n"+"Do you want to ");
+
+        String input = ui.getInput("1: Display our catalog"+"\n"+"2: Search again"+"\n"+"3: Go back to main menu");
+
+        if(input.equalsIgnoreCase("1")){
+        displayMovies();
+        }else if(input.equalsIgnoreCase("2")){
+        searchByName();
+        }else if(input.equalsIgnoreCase("3")){
+            mainMenu();
+        }
+        }
 }
 
 
