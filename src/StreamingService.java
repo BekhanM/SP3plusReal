@@ -34,6 +34,7 @@ public class StreamingService {
                 "\n4) Se din liste over sete film" +
                 "\n5) Se din liste over gemte film" +
                 "\n6) logout");
+
         if(i.equals("1")){
             displayMovies();
         }
