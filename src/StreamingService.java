@@ -31,17 +31,21 @@ public class StreamingService {
     public void login() {
         String userInputUsername = ui.getInput("Brugernavn: ");
         if (dataValidator.checkLoginUsername(userData, userInputUsername)) {
-            String userInputPassword = ui.getInput("Kodeord: ");
-            if (dataValidator.checkLoginPassword(userData, userInputPassword)) {
-                ui.displayMessage("Du er nu logget ind som " + userInputUsername);
-            } else {
-                login(); // KAN FIKSES NICE TO HAVE
-            }
+            loginPassword(userInputUsername);
         } else {
             login();
         }
     }
 
+    public void loginPassword(String user){
+        String userInputUsername = user;
+        String userInputPassword = ui.getInput("Kodeord: ");
+        if (dataValidator.checkLoginPassword(userData, userInputPassword)) {
+            ui.displayMessage("Du er nu logget ind som: " + user);
+        } else {
+            loginPassword(user);
+        }
+    }
     public void Logout() {
 
     }

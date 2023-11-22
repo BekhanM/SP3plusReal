@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataValidator {
-
     Scanner scanner = new Scanner(System.in);
     TextUI ui = new TextUI();
 
