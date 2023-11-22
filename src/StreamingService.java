@@ -14,18 +14,7 @@ public class StreamingService {
     private ArrayList<User> users = new ArrayList<>();
     private TextUI ui = new TextUI();
     private List<Content> content;
-
-    public void setup() {
-        ArrayList<String> userData = io.readUserData();
-
-        ArrayList<String> movieData = io.readMovieData();
-
-        ArrayList<String> seriesData = io.readSeriesData();
-
-        DataValidator dataValidator = new DataValidator();
-
-        ArrayList<User> users = new ArrayList<>();
-    }
+    private List<User> myList = new ArrayList<>();
 
     public void startMenu() {
         ui.displayMessage("Hej og velkommen til landets værste streamingtjeneste");
