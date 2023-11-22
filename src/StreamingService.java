@@ -216,8 +216,8 @@ public class StreamingService {
         String input = ui.getInput("Type to search in genre");
 
         for (Movie m : movies) {
-            String input = ui.getInput("Type to search in genre");
-            if (m.getGenre().equalsIgnoreCase(input)) {
+            if (m.getGenre().equalsIgnoreCase(input)){
+                ui.displayMessage(m.getGenre());
                 playMethod();
             }else{
                 searchChoices();

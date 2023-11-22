@@ -48,9 +48,6 @@ public class Movie extends Media
         return releaseDate;
     }
 
-
-
-
     public List<Movie> movieSeparator() {
         List<String> data = io.readMovieData();
         for (String s : data) {
