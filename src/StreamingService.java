@@ -13,7 +13,9 @@ public class StreamingService {
 
     public void startMenu() {
         ui.displayMessage("Hej og velkommen til landets værste streamingtjeneste");
-        String i = ui.getInput("Vælg en funktion: \n 1) Logge ind. \n 2) Lave en ny bruger.");
+        String i = ui.getInput("Vælg en funktion:" +
+                "\n1) Logge ind." +
+                "\n2) Lave en ny bruger.");
         if (i.equals("1")) {
             login();
         } else if (i.equals("2")) {
@@ -25,7 +27,28 @@ public class StreamingService {
     }
 
     public void mainMenu() {
-        ui.displayMessage("Fuck dig");
+        String i = ui.getInput("Du har følgende valgmuligheder:" +
+                "\n1) Søge efter en bestemt film" +
+                "\n2) Søge alle film i en kategori" +
+                "\n3) Se din liste over sete film" +
+                "\n4) Se din liste over gemte film" +
+                "\n5) logout");
+
+        if (i.equals("1")) {
+            searchByName();
+        }
+        if (i.equals("2")) {
+            searchByGenre();
+        }
+        if (i.equals("3")) {
+            displayWatchedList();
+        }
+        if (i.equals("4")) {
+            displayMyList();
+        }
+        if (i.equals("5")) {
+            logout();
+        }
     }
 
     public void login() {
@@ -37,7 +60,7 @@ public class StreamingService {
         }
     }
 
-    public void loginPassword(String user){
+    public void loginPassword(String user) {
         String userInputUsername = user;
         String userInputPassword = ui.getInput("Kodeord: ");
         if (dataValidator.checkLoginPassword(userData, userInputPassword)) {
@@ -46,7 +69,8 @@ public class StreamingService {
             loginPassword(user);
         }
     }
-    public void Logout() {
+
+    public void logout() {
 
     }
 
@@ -74,18 +98,20 @@ public class StreamingService {
     public void removeUser(User user) {
 
     }
-    public void displaySeries(){
+
+    public void displaySeries() {
         //-----------Printer listen af SERIES i en pen format------------
-        Series series = new Series("","","",0,"","");
+        Series series = new Series("", "", "", 0, "", "");
         List<Series> serie = series.seriesSeparator();
         for (Series s : serie) {
             System.out.println(s);
 
         }
     }
-    public void displayMovies(){
+
+    public void displayMovies() {
         //-----------Printer listen af movies i en pen format------------
-        Movie movie = new Movie("dasd","132","bingchillin",6.2);
+        Movie movie = new Movie("dasd", "132", "bingchillin", 6.2);
         List<Movie> movies = movie.movieSeparator();
         for (Movie m : movies) {
             System.out.println(m);
@@ -115,7 +141,6 @@ public class StreamingService {
         ui.displayMessage("Media not found, try again");
         searchAll();
     }
-
 
 
     public void searchByName() {
