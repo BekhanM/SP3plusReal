@@ -7,5 +7,7 @@ public class Main {
 
         streamingService.startMenu();
 
+        //streamingService.removeUser();
+
     }
 }

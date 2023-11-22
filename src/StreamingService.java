@@ -135,16 +135,14 @@ public class StreamingService {
         User userToRemove = new User(username, password);
         for (User currentUser : users) {
             if (currentUser.equals(userToRemove)) {
+                for (User user : users) {
+                    users.remove(user);
+                    userData.remove(user.toString());
+                }
             }
-        }
-
-        for (User user : users) {
-            users.remove(user);
-            userData.remove(user.toString());
         }
         io.saveUserData(users);
     }
-
 
     public void displaySeries() {
         //-----------Printer listen af SERIES i en pen format------------
@@ -180,7 +178,7 @@ public class StreamingService {
         for (Movie m : movies) {
             if (m.getTitle().equalsIgnoreCase(input)) {
                 playMethod();
-            }else{
+            } else {
                 searchChoices();
                 ui.displayMessage("Media not found, try again");
                 searchByName();
@@ -208,7 +206,8 @@ public class StreamingService {
     public void displayMyList() {
 
     }
-    public void playMethod(){
+
+    public void playMethod() {
         ui.displayMessage("Media found" + "\n" + "Do you want to play the media? Y/N");
         String choice = ui.getInput("");
 
@@ -217,16 +216,17 @@ public class StreamingService {
 
         }
     }
-    public void searchChoices(){
-        ui.displayMessage("Media not found"+"\n"+"Do you want to ");
 
-        String input = ui.getInput("1: Display our catalog"+"\n"+"2: Search again"+"\n"+"3: Go back to main menu");
+    public void searchChoices() {
+        ui.displayMessage("Media not found" + "\n" + "Do you want to ");
 
-        if(input.equalsIgnoreCase("1")){
+        String input = ui.getInput("1: Display our catalog" + "\n" + "2: Search again" + "\n" + "3: Go back to main menu");
+
+        if (input.equalsIgnoreCase("1")) {
             displayMovies();
-        }else if(input.equalsIgnoreCase("2")){
+        } else if (input.equalsIgnoreCase("2")) {
             searchByName();
-        }else if(input.equalsIgnoreCase("3")){
+        } else if (input.equalsIgnoreCase("3")) {
             mainMenu();
         }
     }
