@@ -2,12 +2,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StreamingService {
-    FileIO io = new FileIO();
-    ArrayList<String> userData = io.readUserData();
-    ArrayList<String> movieData = io.readMovieData();
-    ArrayList<String> seriesData = io.readSeriesData();
-    DataValidator dataValidator = new DataValidator();
-    ArrayList<User> users = new ArrayList<>();
+    Movie movie = new Movie("", "", "", 0);
+
+    private List<Movie> movies = movie.movieSeparator();
+    private List<String>genreList = new ArrayList<>();
+    private FileIO io = new FileIO();
+    private ArrayList<String> userData = io.readUserData();
+    private ArrayList<String> movieData = io.readMovieData();
+    private ArrayList<String> seriesData = io.readSeriesData();
+    private DataValidator dataValidator = new DataValidator();
+    private ArrayList<User> users = new ArrayList<>();
     private TextUI ui = new TextUI();
     private List<Content> content;
 
@@ -53,6 +57,7 @@ public class StreamingService {
             searchByName();
         }
         if (i.equals("3")) {
+            displayGenre();
             searchByGenre();
         }
         if (i.equals("4")) {
@@ -155,6 +160,30 @@ public class StreamingService {
 
         }
     }
+    public void displayGenre(){
+        genreList.add("1: Drama");
+        genreList.add("2: Crime");
+        genreList.add("3: Biography");
+        genreList.add("4: History");
+        genreList.add("5: Romance");
+        genreList.add("6: War");
+        genreList.add("7: Adventure");
+        genreList.add("8: Family");
+        genreList.add("9: Mystery");
+        genreList.add("10: Sport");
+        genreList.add("11: Thriller");
+        genreList.add("12: Music/Musical");
+        genreList.add("13: Sci-Fi");
+        genreList.add("14: Horror");
+        genreList.add("15: Film-Noir");
+        genreList.add("16: Fantasy");
+
+        String output = "";
+        for(int i = 0 ; i < genreList.size();i++){
+            output = output+genreList.get(i)+"\n";
+        }
+        System.out.println(output);
+    }
 
     public void displayMovies() {
         //-----------Printer listen af movies i en pen format------------
@@ -172,17 +201,13 @@ public class StreamingService {
 
 
     public void searchByName() {
-        Movie movie = new Movie("", "", "", 0);
-
-        List<Movie> movies = movie.movieSeparator();
-        String input = ui.getInput("Type to search");
 
         for (Movie m : movies) {
+            String input = ui.getInput("Type to search");
             if (m.getTitle().equalsIgnoreCase(input)) {
                 playMethod();
             }else{
                 searchChoices();
-                ui.displayMessage("Media not found, try again");
                 searchByName();
             }
             break;
@@ -198,7 +223,16 @@ public class StreamingService {
     }
 
     public void searchByGenre() {
-
+        for (Movie m : movies) {
+            String input = ui.getInput("Type to search in genre");
+            if (m.getGenre().equalsIgnoreCase(input)) {
+                playMethod();
+            }else{
+                searchChoices();
+                displayGenre();
+            }
+            break;
+        }
     }
 
     public void displayWatchedList() {
@@ -221,7 +255,6 @@ public class StreamingService {
         ui.displayMessage("Media not found"+"\n"+"Do you want to ");
 
         String input = ui.getInput("1: Display our catalog"+"\n"+"2: Search again"+"\n"+"3: Go back to main menu");
-
         if(input.equalsIgnoreCase("1")){
             displayMovies();
         }else if(input.equalsIgnoreCase("2")){
