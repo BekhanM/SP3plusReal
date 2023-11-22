@@ -211,7 +211,10 @@ public class StreamingService {
 
     }
 
-    public void searchByGenre() {
+    /*public void searchByGenre() {
+        displayGenre();
+        String input = ui.getInput("Type to search in genre");
+
         for (Movie m : movies) {
             String input = ui.getInput("Type to search in genre");
             if (m.getGenre().equalsIgnoreCase(input)) {
@@ -222,7 +225,44 @@ public class StreamingService {
             }
             break;
         }
+    }*/
+    public void searchByGenre() {
+        displayGenre();
+        String input = ui.getInput("Type to search in genre");
+        String[] inputGenres = input.split(", "); // Split the user input into an array of genres
+
+        boolean found = false;
+
+        for (Movie m : movies) {
+            String[] movieGenres = m.getGenre().split(", "); // Split movie genres into an array
+            boolean matchFound = false;
+
+            // Check if any movie genre matches any of the input genres
+            for (String genre : inputGenres) {
+                for (String movieGenre : movieGenres) {
+                    if (movieGenre.equalsIgnoreCase(genre)) {
+                        matchFound = true;
+                    }
+                }
+                if (matchFound) {
+                    break;
+                }
+            }
+
+            if (matchFound) {
+                ui.displayMessage(m.getTitle()+m.getGenre());
+                playMethod();
+                found = true;
+            }
+        }
+
+        if (!found) {
+            searchChoices();
+            displayGenre();
+        }
     }
+
+
 
     public void displayWatchedList() {
 
