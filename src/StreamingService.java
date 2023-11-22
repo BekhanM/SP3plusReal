@@ -232,12 +232,18 @@ public class StreamingService {
 
     }
     public void playMethod(){
-        ui.displayMessage("Media found" + "\n" + "Do you want to play the media? Y/N");
+        ui.displayMessage("Media found" + "\n" + "Pick a function:\n1) Play selected media\n2) Add media to My List\n3) Go back");
         String choice = ui.getInput("");
-
-        if (choice.equalsIgnoreCase("Y")) {
+        if (choice.equals("1")) {
             ui.displayMessage("*Playing media*");
+        }
+        if (choice.equals("2")) {
+            MyList myList1 = new MyList();
+            myList1.addToMyList(null);
 
+        }
+        if (choice.equals("3")) {
+            mainMenu();
         }
     }
     public void searchChoices(){
