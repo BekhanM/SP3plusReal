@@ -11,21 +11,11 @@ public class StreamingService {
     private TextUI ui = new TextUI();
     private List<Content> content;
 
-    public void setup() {
-        ArrayList<String> userData = io.readUserData();
-
-        ArrayList<String> movieData = io.readMovieData();
-
-        ArrayList<String> seriesData = io.readSeriesData();
-
-        DataValidator dataValidator = new DataValidator();
-
-        ArrayList<User> users = new ArrayList<>();
-    }
-
     public void startMenu() {
         ui.displayMessage("Hej og velkommen til landets værste streamingtjeneste");
-        String i = ui.getInput("Vælg en funktion: \n 1) Logge ind. \n 2) Lave en ny bruger.");
+        String i = ui.getInput("Vælg en funktion:" +
+                "\n1) Logge ind." +
+                "\n2) Lave en ny bruger.");
         if (i.equals("1")) {
             login();
         } else if (i.equals("2")) {
@@ -37,7 +27,31 @@ public class StreamingService {
     }
 
     public void mainMenu() {
-        ui.displayMessage("Fuck dig");
+        String i = ui.getInput("Du har følgende valgmuligheder:" +
+                "\n1) Vis listen over alle film" +
+                "\n2) Søge efter en bestemt film" +
+                "\n3) Søge alle film i en kategori" +
+                "\n4) Se din liste over sete film" +
+                "\n5) Se din liste over gemte film" +
+                "\n6) logout");
+        if(i.equals("1")){
+            displayMovies();
+        }
+        if (i.equals("2")) {
+            searchByName();
+        }
+        if (i.equals("3")) {
+            searchByGenre();
+        }
+        if (i.equals("4")) {
+            displayWatchedList();
+        }
+        if (i.equals("5")) {
+            displayMyList();
+        }
+        if (i.equals("6")) {
+            logout();
+        }
     }
 
     public void login() {
@@ -49,16 +63,17 @@ public class StreamingService {
         }
     }
 
-    public void loginPassword(String user){
-        String userInputUsername = user;
+    public void loginPassword(String user) {
         String userInputPassword = ui.getInput("Kodeord: ");
         if (dataValidator.checkLoginPassword(userData, userInputPassword)) {
             ui.displayMessage("Du er nu logget ind som: " + user);
+            mainMenu();
         } else {
             loginPassword(user);
         }
     }
-    public void Logout() {
+
+    public void logout() {
 
     }
 
@@ -70,6 +85,8 @@ public class StreamingService {
             String userInputPassword2 = ui.getInput("Gentag kodeord");
             if (userInputPassword.equals(userInputPassword2)) {
                 registerUser(userInputUsername, userInputPassword);
+                ui.displayMessage("Du er nu registreret som bruger:");
+                startMenu();
             }
         } else {
             addUser();
@@ -86,18 +103,20 @@ public class StreamingService {
     public void removeUser(User user) {
 
     }
-    public void displaySeries(){
+
+    public void displaySeries() {
         //-----------Printer listen af SERIES i en pen format------------
-        Series series = new Series("","","",0,"","");
+        Series series = new Series("", "", "", 0, "", "");
         List<Series> serie = series.seriesSeparator();
         for (Series s : serie) {
             System.out.println(s);
 
         }
     }
-    public void displayMovies(){
+
+    public void displayMovies() {
         //-----------Printer listen af movies i en pen format------------
-        Movie movie = new Movie("dasd","132","bingchillin",6.2);
+        Movie movie = new Movie("dasd", "132", "bingchillin", 6.2);
         List<Movie> movies = movie.movieSeparator();
         for (Movie m : movies) {
             System.out.println(m);
@@ -106,64 +125,52 @@ public class StreamingService {
     }
 
     public void searchAll() {
-
-    }
-
-
-
-    public void searchByName() {
-        Movie movie = new Movie("", "", "", 0);
+        Movie movie = new Movie("", "", "", 0); // Not sure about the default constructor values
 
         List<Movie> movies = movie.movieSeparator();
         String input = ui.getInput("Type to search");
 
         for (Movie m : movies) {
-            if (m.getTitle().equalsIgnoreCase(input)) {
-                playMethod();
-            }else{
-                    searchChoices();
-                    ui.displayMessage("Media not found, try again");
-                    searchByName();
+            if (m.getTitle().equalsIgnoreCase(input)) { //fungerer ikke med toString
+                ui.displayMessage("Media found" + "\n" + "Do you want to play the media? Y/N");
+                String choice = ui.getInput("");
+
+                if (choice.equalsIgnoreCase("Y")) {
+                    ui.displayMessage("*Playing media*");
                 }
-            break;
-                }
+                return; // Exit the method after finding the movie
             }
+        }
+
+        displayMovies(); // Not sure what this method does; display movies again after unsuccessful search?
+        ui.displayMessage("Media not found, try again");
+        searchAll();
+    }
 
 
-
-    public void searchByDateOfRelease() {
+    public void searchByName() {
 
     }
 
-    public void searchByRating() {
+    public void searchByDateOfRelease() { // NICE TO HAVE
+
+    }
+
+    public void searchByRating() { // NICE TO HAVE
 
     }
 
     public void searchByGenre() {
 
     }
-    public void playMethod(){
-        ui.displayMessage("Media found" + "\n" + "Do you want to play the media? Y/N");
-        String choice = ui.getInput("");
 
-        if (choice.equalsIgnoreCase("Y")) {
-            ui.displayMessage("*Playing media*");
+    public void displayWatchedList() {
 
-        }
     }
-        public void searchChoices(){
-        ui.displayMessage("Media not found"+"\n"+"Do you want to ");
 
-        String input = ui.getInput("1: Display our catalog"+"\n"+"2: Search again"+"\n"+"3: Go back to main menu");
+    public void displayMyList() {
 
-        if(input.equalsIgnoreCase("1")){
-        displayMovies();
-        }else if(input.equalsIgnoreCase("2")){
-        searchByName();
-        }else if(input.equalsIgnoreCase("3")){
-            mainMenu();
-        }
-        }
+    }
 }
 
 
