@@ -11,6 +11,18 @@ public class StreamingService {
     private TextUI ui = new TextUI();
     private List<Content> content;
 
+    public void setup() {
+        ArrayList<String> userData = io.readUserData();
+
+        ArrayList<String> movieData = io.readMovieData();
+
+        ArrayList<String> seriesData = io.readSeriesData();
+
+        DataValidator dataValidator = new DataValidator();
+
+        ArrayList<User> users = new ArrayList<>();
+    }
+
     public void startMenu() {
         ui.displayMessage("Hej og velkommen til landets værste streamingtjeneste");
         String i = ui.getInput("Vælg en funktion:" +
@@ -34,7 +46,7 @@ public class StreamingService {
                 "\n4) Se din liste over sete film" +
                 "\n5) Se din liste over gemte film" +
                 "\n6) logout");
-        if(i.equals("1")){
+        if (i.equals("1")) {
             displayMovies();
         }
         if (i.equals("2")) {
@@ -74,7 +86,15 @@ public class StreamingService {
     }
 
     public void logout() {
-
+        String i = ui.getInput("Er du sikker du vil logge ud, bro?\nTast 1 hvis du gerne vil logge ud:\nTast 2 hvis du ikke vil logge ud:");
+        if (i.equals("1")) {
+            startMenu();
+        } else if (i.equals("2")) {
+            mainMenu();
+        } else {
+            ui.displayMessage("Forkert valg. Vælg funktion 1 eller 2.");
+            logout();
+        }
     }
 
     public void addUser() {
@@ -100,9 +120,31 @@ public class StreamingService {
         io.saveUserData(users);
     }
 
-    public void removeUser(User user) {
-
+    public void removeUser() {
+        String i = ui.getInput("Er du sikker du vil fjerne din konto ud, bro?\nTast 1 hvis du gerne vil slette din konto:\nTast 2 hvis du ikke vil slette din konto:");
+        if (i.equals("1")) {
+            String uname = ui.getInput("Indtast brugernavn: ");
+            String pword = ui.getInput("Indtast kodeord: ");
+            terminateUser(uname, pword);
+        } else if (i.equals("2")) {
+            mainMenu();
+        }
     }
+
+    public void terminateUser(String username, String password) {
+        User userToRemove = new User(username, password);
+        for (User currentUser : users) {
+            if (currentUser.equals(userToRemove)) {
+            }
+        }
+
+        for (User user : users) {
+            users.remove(user);
+            userData.remove(user.toString());
+        }
+        io.saveUserData(users);
+    }
+
 
     public void displaySeries() {
         //-----------Printer listen af SERIES i en pen format------------
