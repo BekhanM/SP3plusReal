@@ -65,6 +65,7 @@ public class StreamingService {
         String userInputPassword = ui.getInput("Kodeord: ");
         if (dataValidator.checkLoginPassword(userData, userInputPassword)) {
             ui.displayMessage("Du er nu logget ind som: " + user);
+            mainMenu();
         } else {
             loginPassword(user);
         }
@@ -82,6 +83,8 @@ public class StreamingService {
             String userInputPassword2 = ui.getInput("Gentag kodeord");
             if (userInputPassword.equals(userInputPassword2)) {
                 registerUser(userInputUsername, userInputPassword);
+                ui.displayMessage("Du er nu registreret som bruger:");
+                startMenu();
             }
         } else {
             addUser();
@@ -147,15 +150,23 @@ public class StreamingService {
 
     }
 
-    public void searchByDateOfRelease() {
+    public void searchByDateOfRelease() { // NICE TO HAVE
 
     }
 
-    public void searchByRating() {
+    public void searchByRating() { // NICE TO HAVE
 
     }
 
     public void searchByGenre() {
+
+    }
+
+    public void displayWatchedList() {
+
+    }
+
+    public void displayMyList() {
 
     }
 }
