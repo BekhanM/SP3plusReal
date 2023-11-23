@@ -219,12 +219,13 @@ public class StreamingService {
 
             if (matchFound) {
                 ui.displayMessage(m.toString());
+                mediaOptions();
                 found = true;
             }
         }
 
         if (!found) {
-            searchChoices();
+            mediaNotFoundOptions();
             displayGenre();
         }
     }
@@ -263,6 +264,7 @@ public class StreamingService {
 
             if (matchFound) {
                 ui.displayMessage(m.getTitle()+m.getGenre());
+                mediaOptions();
                 found = true;
             }
         }
