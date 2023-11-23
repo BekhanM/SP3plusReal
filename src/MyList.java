@@ -13,4 +13,12 @@ public class MyList
     {
         myList.remove(media);
     }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for (Media media : myList) {
+            sb.append(media.toString()).append("\n");
+        }
+        return sb.toString();
+    }
 }
