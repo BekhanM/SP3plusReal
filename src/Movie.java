@@ -8,7 +8,7 @@ public class Movie extends Media
     private List<Movie>movieList = new ArrayList<>();
 
 
-    public Movie(String title,String releaseDate, String genre, double rating) // Tar constructor fra MediaContent
+    public Movie(String title,String releaseDate, String genre, double rating) // Tar constructor fra MediaContentContent
     {
         /*super(title, genre, rating, releaseDate);*/
         super(title,releaseDate,genre,rating);
@@ -71,7 +71,7 @@ public class Movie extends Media
 
 
     @Override
-    public String toString() // Bruger super toString fra MediaContent
+    public String toString() // Bruger super toString fra MediaContentContent
     {
 
         return super.toString();

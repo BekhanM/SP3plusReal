@@ -2,15 +2,22 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-
+        FileIO fileio = new FileIO();
         StreamingService streamingService = new StreamingService();
+        MediaContent media = new MediaContent("ss","","",0,"","");
 
-       // System.out.println(streamingService.userData);
+        //streamingService.displaySeries();
 
-       // streamingService.searchByName();
+       // System.out.println(fileio.readMediaData());
+        streamingService.displayMediaContent();
+        //streamingService.searchByGenre();
+        //streamingService.searchByGenre();
+        //streamingService.searchByName();
+        //streamingService.displaySeries();
 
-      //streamingService.displayMediaContent();
-      streamingService.displayMovies();
+        //System.out.println(fileio.readMediaData());
+        //System.out.println(media.mediaContentSeparator());
+
 
     }
 }

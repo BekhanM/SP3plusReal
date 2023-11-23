@@ -90,7 +90,7 @@ public class FileIO implements IO {
     public ArrayList<String> readMediaContentData() {
         ArrayList<String> mediaData = new ArrayList<>();
 
-        File file = new File("src/MediaContent");
+        File file = new File("src/MediaContentContent");
 
         try {
             Scanner scan = new Scanner(file);
@@ -105,6 +105,4 @@ public class FileIO implements IO {
 
         return mediaData;
     }
-
-
 }
