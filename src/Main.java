@@ -14,6 +14,7 @@ public class Main {
         //streamingService.searchByGenre();
         //streamingService.searchByName();
         //streamingService.displaySeries();
+        //streamingService.displayMediaContent();
 
         //System.out.println(fileio.readMediaData());
         //System.out.println(media.mediaContentSeparator());

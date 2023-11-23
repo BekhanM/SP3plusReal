@@ -2,14 +2,14 @@ import java.util.ArrayList;
 
 public class MyList
 {
-    ArrayList<Media> myList = new ArrayList<>();
+    ArrayList<MediaContent> myList = new ArrayList<>();
 
-    public void addToMyList(Media media)
+    public void addToMyList(MediaContent media)
     {
         myList.add(media);
     }
 
-    public void removeFromMyList(Media media)
+    public void removeFromMyList(MediaContent media)
     {
         myList.remove(media);
     }

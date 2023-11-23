@@ -32,22 +32,22 @@ public class User
         return "Username: " + username + " Password: " + password;
     }
 
-    public void addWatchedMedia(Media media)
+    public void addWatchedMedia(MediaContent media)
     {
         watchedList.addToWatchedList(media);
     }
 
-    public void addMyListMedia(Media media)
+    public void addMyListMedia(MediaContent media)
     {
         myList.addToMyList(media);
     }
 
-    public void removeWatchedMedia(Media media)
+    public void removeWatchedMedia(MediaContent media)
     {
         watchedList.removeFromWatchedList(media);
     }
 
-    public void removeMyListMedia(Media media)
+    public void removeMyListMedia(MediaContent media)
     {
         myList.removeFromMyList(media);
     }
