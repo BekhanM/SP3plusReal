@@ -187,12 +187,7 @@ public class StreamingService {
     }
 
     public void searchAll() {
-        /*
-       List<Media>allMedia=new ArrayList<>();
-       allMedia.add(movies);
-       allMedia.add(serie);
 
-         */
 
     }
 
@@ -287,7 +282,7 @@ public class StreamingService {
     public void displayMyList() {
 
     }
-    public void playMethod(){
+    public void mediaOptions(){
         ui.displayMessage("Media found" + "\n" + "Pick a function:\n1) Play selected media\n2) Add media to My List\n3) Go back");
         String choice = ui.getInput("");
         if (choice.equals("1")) {
