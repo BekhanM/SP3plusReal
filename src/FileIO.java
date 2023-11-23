@@ -87,5 +87,24 @@ public class FileIO implements IO {
         return seriesData;
     }
 
+    public ArrayList<String> readMediaData() {
+        ArrayList<String> mediaData = new ArrayList<>();
+
+        File file = new File("src/MediaContent");
+
+        try {
+            Scanner scan = new Scanner(file);
+
+            while (scan.hasNextLine()) {
+                String s = scan.nextLine();
+                mediaData.add(s);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found");
+        }
+
+        return mediaData;
+    }
+
 
 }
