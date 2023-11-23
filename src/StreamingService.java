@@ -5,15 +5,17 @@ public class StreamingService {
 
     Movie movie = new Movie("", "", "", 0);
     Series series = new Series("", "", "", 0, "", "");
-
+    MediaContent mediaContent = new MediaContent("","","",0,"","");
 
     private List<Movie> movies = movie.movieSeparator();
     private List<Series> serie = series.seriesSeparator();
+    private List<MediaContent> mediaContents = mediaContent.mediaContentSeparator();
     private List<String>genreList = new ArrayList<>();
     private FileIO io = new FileIO();
     private ArrayList<String> userData = io.readUserData();
     private ArrayList<String> movieData = io.readMovieData();
     private ArrayList<String> seriesData = io.readSeriesData();
+    private ArrayList<String> mediaContentData = io.readMediaData();
     private DataValidator dataValidator = new DataValidator();
     private ArrayList<User> users = new ArrayList<>();
     private TextUI ui = new TextUI();
@@ -143,15 +145,6 @@ public class StreamingService {
         io.saveUserData(users);
     }
 
-
-    public void displaySeries() {
-        //-----------Printer listen af SERIES i en pen format------------
-        List<Series> serie = series.seriesSeparator();
-        for (Series s : serie) {
-            System.out.println(s);
-
-        }
-    }
     public void displayGenre(){
         genreList.add("1: Drama");
         genreList.add("2: Crime");
@@ -183,18 +176,44 @@ public class StreamingService {
         for (Movie m : movies) {
             System.out.println(m);
         }
-
     }
 
-    public void searchAll() {
-
-
+    public void displaySeries() {
+        //-----------Printer listen af SERIES i en pen format------------
+        List<Series> serie = series.seriesSeparator();
+        for (Series s : serie) {
+            System.out.println(s);
+        }
     }
+
+    /*
+    public void displayMediaContent() {
+        //-----------Printer listen af movies og series i en pen format------------
+        List<MediaContent> mediaContents = mediaContent.mediaContentSeparator();
+
+        for (MediaContent mc : mediaContents) {
+            System.out.println(mc);
+        }
+        if(mediaContents.isEmpty()){
+            System.out.println("Nixen bixen");
+
+        }
+    }
+*/
+    public void displayMediaContent() {
+        // Use the existing mediaContents list
+        for (MediaContent mc : mediaContents) {
+            System.out.println(mc);
+        }
+
+        if (mediaContents.isEmpty()) {
+            System.out.println("Nixen bixen");
+        }
+    }
+
 
 
     public void searchByName() {
-
-
         String input = ui.getInput("Type to search titles");
         String[] inputTitles = input.split(", "); // Split the user input into an array of genres
 
@@ -206,10 +225,9 @@ public class StreamingService {
 
             // Check if any movie genre matches any of the input genres
             for (String title : inputTitles) {
-                for (String movieTitle : movieTitles) {
-                    if (movieTitle.equalsIgnoreCase(title)) {
+                for (String mediaContentTitle : mediaContentTitles) {
+                    if (mediaContentTitle.equalsIgnoreCase(title)) {
                         matchFound = true;
-
                     }
                 }
                 if (matchFound) {
@@ -229,12 +247,11 @@ public class StreamingService {
         }
     }
 
-    public void searchByDateOfRelease() { // NICE TO HAVE
+    public void searchByReleaseDate() { //NICETOHAVE
 
     }
 
     public void searchByRating() { // NICE TO HAVE
-
     }
 
 
@@ -245,8 +262,8 @@ public class StreamingService {
 
         boolean found = false;
 
-        for (Movie m : movies) {
-            String[] movieGenres = m.getGenre().split(", "); // Split movie genres into an array
+        for (MediaContent m : mediaContents) {
+            String[] mediaContentGenres = m.getGenre().split(", "); // Split movie genres into an array
             boolean matchFound = false;
 
             // Check if any movie genre matches any of the input genres
@@ -272,7 +289,6 @@ public class StreamingService {
             displayGenre();
         }
     }
-
 
 
     public void displayWatchedList() {
