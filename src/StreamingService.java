@@ -283,6 +283,7 @@ public class StreamingService {
     }
 
     public void displayMyList() {
+        System.out.println(myList);
 
     }
     public void mediaOptions() {
