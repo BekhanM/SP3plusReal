@@ -18,7 +18,7 @@ public class StreamingService {
     private ArrayList<User> users = new ArrayList<>();
     private TextUI ui = new TextUI();
     private List<Content> content;
-    private List<User> myList = new ArrayList<>();
+    private MyList myList = new MyList();
 
     public void startMenu() {
         ui.displayMessage("Hej og velkommen til landets værste streamingtjeneste");
@@ -218,6 +218,7 @@ public class StreamingService {
             }
 
             if (matchFound) {
+                ui.displayMessage("Media found: ");
                 ui.displayMessage(m.toString());
                 mediaOptions();
                 found = true;
@@ -270,7 +271,7 @@ public class StreamingService {
         }
 
         if (!found) {
-            searchChoices();
+            mediaNotFoundOptions();
             displayGenre();
         }
     }
@@ -284,30 +285,33 @@ public class StreamingService {
     public void displayMyList() {
 
     }
-    public void mediaOptions(){
-        ui.displayMessage("Media found" + "\n" + "Pick a function:\n1) Play selected media\n2) Add media to My List\n3) Go back");
-        String choice = ui.getInput("");
-        if (choice.equals("1")) {
+    public void mediaOptions() {
+        String userInput = ui.getInput("\nPick a function:" +
+                "\n1) Play selected media" +
+                "\n2) Add media to My List" +
+                "\n3) Go back to main menu");
+
+        if (userInput.equals("1")) {
             ui.displayMessage("*Playing media*");
         }
-        if (choice.equals("2")) {
-            MyList myList1 = new MyList();
-            myList1.addToMyList(null);
-
+        if (userInput.equals("2")) {
+            myList.addToMyList(movies.get(movies.indexOf(10))); // skal ikke hardcodes
+            System.out.println(myList);
         }
-        if (choice.equals("3")) {
+        if (userInput.equals("3")) {
             mainMenu();
         }
     }
-    public void searchChoices(){
-        ui.displayMessage("Media not found"+"\n"+"Do you want to ");
-
-        String input = ui.getInput("1: Display our catalog"+"\n"+"2: Search again"+"\n"+"3: Go back to main menu");
-        if(input.equalsIgnoreCase("1")){
+    public void mediaNotFoundOptions() {
+        String input = ui.getInput("Select an option:" +
+                "\n1) Display our catalog" +
+                "\n2) Search again" +
+                "\n)3 Go back to main menu");
+        if (input.equalsIgnoreCase("1")) {
             displayMovies();
-        }else if(input.equalsIgnoreCase("2")){
+        } else if (input.equalsIgnoreCase("2")) {
             searchByName();
-        }else if(input.equalsIgnoreCase("3")){
+        } else if (input.equalsIgnoreCase("3")) {
             mainMenu();
         }
     }
