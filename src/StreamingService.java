@@ -219,8 +219,8 @@ public class StreamingService {
 
         boolean found = false;
 
-        for (Movie m : movies) {
-            String[] movieTitles = m.getTitle().split(", "); // Split movie genres into an array
+        for (MediaContent m : mediaContents) {
+            String[] mediaContentTitles = m.getTitle().split(", "); // Split movie genres into an array
             boolean matchFound = false;
 
             // Check if any movie genre matches any of the input genres
@@ -243,7 +243,7 @@ public class StreamingService {
 
         if (!found) {
             searchChoices();
-            displayGenre();
+
         }
     }
 
@@ -268,8 +268,8 @@ public class StreamingService {
 
             // Check if any movie genre matches any of the input genres
             for (String genre : inputGenres) {
-                for (String movieGenre : movieGenres) {
-                    if (movieGenre.equalsIgnoreCase(genre)) {
+                for (String mediaContentGenre : mediaContentGenres) {
+                    if (mediaContentGenre.equalsIgnoreCase(genre)) {
                         matchFound = true;
                     }
                 }
@@ -279,7 +279,7 @@ public class StreamingService {
             }
 
             if (matchFound) {
-                ui.displayMessage(m.getTitle()+m.getGenre());
+                ui.displayMessage(m.toString());
                 found = true;
             }
         }
