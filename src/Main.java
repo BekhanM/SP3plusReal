@@ -9,7 +9,7 @@ public class Main {
         //streamingService.displaySeries();
 
        // System.out.println(fileio.readMediaData());
-        streamingService.displayMediaContent();
+        streamingService.startMenu();
         //streamingService.searchByGenre();
         //streamingService.searchByGenre();
         //streamingService.searchByName();
@@ -18,6 +18,7 @@ public class Main {
 
         //System.out.println(fileio.readMediaData());
         //System.out.println(media.mediaContentSeparator());
+
 
 
     }

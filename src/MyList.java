@@ -21,4 +21,9 @@ public class MyList
         }
         return sb.toString();
     }
+
+    public ArrayList<MediaContent> getMyList(){
+        return myList;
+    }
+
 }
