@@ -87,7 +87,7 @@ public class FileIO implements IO {
         return seriesData;
     }
 
-    public ArrayList<String> readMediaData() {
+    public ArrayList<String> readMediaContentData() {
         ArrayList<String> mediaData = new ArrayList<>();
 
         File file = new File("src/MediaContent");

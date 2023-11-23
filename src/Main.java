@@ -7,8 +7,10 @@ public class Main {
 
        // System.out.println(streamingService.userData);
 
-        streamingService.searchByName();
+       // streamingService.searchByName();
 
+      //streamingService.displayMediaContent();
+      streamingService.displayMovies();
 
     }
 }
