@@ -106,18 +106,17 @@ public class FileIO implements IO {
         return mediaData;
     }
 
-    public void saveMyListData(ArrayList<MediaContent> saveData) {
+    public void saveMyListData(String username, ArrayList<MediaContent> saveData) {
         ArrayList<String> savedData = new ArrayList<>();
         try {
-            File f = new File("src/userMyList");
-            FileWriter writer = new FileWriter("src/userMyList");
+            File f = new File("UserMyList/userMyList_" + username + ".txt");
+            FileWriter writer = new FileWriter(f,true);
             if (!f.exists()) {
                 f.createNewFile();
                 for (MediaContent s : saveData) {
                     MediaContent textToSave = s;
                     writer.write(String.valueOf(textToSave + "\n"));
                     savedData.add(String.valueOf(textToSave));
-
                 }
                 System.out.println("has been added to new file");
                 writer.close();

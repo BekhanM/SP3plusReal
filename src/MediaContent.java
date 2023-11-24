@@ -57,7 +57,11 @@ import java.util.Scanner;
 
         @Override
         public String toString() {
-            return super.toString() + " Season: " + getSeason() + "Episode: " + getEpisode();
+            if (!getSeason().isEmpty() && !getEpisode().isEmpty()) {
+                return super.toString() + " Season: " + getSeason() + " Episode: " + getEpisode();
+            } else {
+                return super.toString();
+            }
         }
 
 

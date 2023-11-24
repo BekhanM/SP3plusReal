@@ -2,15 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StreamingService {
-
+    private String userInputUsername;
     Movie movie = new Movie("", "", "", 0);
     Series series = new Series("", "", "", 0, "", "");
-    MediaContent mediaContent = new MediaContent("","","",0,"","");
-
+    MediaContent mediaContent = new MediaContent("", "", "", 0, "", "");
     private List<Movie> movies = movie.movieSeparator();
     private List<Series> serie = series.seriesSeparator();
     private List<MediaContent> mediaContents = mediaContent.mediaContentSeparator();
-    private List<String>genreList = new ArrayList<>();
+    private List<String> genreList = new ArrayList<>();
     private FileIO io = new FileIO();
     private ArrayList<String> userData = io.readUserData();
     private ArrayList<String> movieData = io.readMovieData();
@@ -67,7 +66,7 @@ public class StreamingService {
     }
 
     public void login() {
-        String userInputUsername = ui.getInput("Brugernavn: ");
+        userInputUsername = ui.getInput("Brugernavn: ");
         if (dataValidator.checkLoginUsername(userData, userInputUsername)) {
             loginPassword(userInputUsername);
         } else {
@@ -88,7 +87,7 @@ public class StreamingService {
     public void logout() {
         String i = ui.getInput("Er du sikker du vil logge ud, bro?\nTast 1 hvis du gerne vil logge ud:\nTast 2 hvis du ikke vil logge ud:");
         if (i.equals("1")) {
-            io.saveMyListData(myList.getMyList());
+            io.saveMyListData(userInputUsername,myList.getMyList());
             startMenu();
         } else if (i.equals("2")) {
             mainMenu();
@@ -146,7 +145,7 @@ public class StreamingService {
         io.saveUserData(users);
     }
 
-    public void displayGenre(){
+    public void displayGenre() {
         genreList.add("1: Drama");
         genreList.add("2: Crime");
         genreList.add("3: Biography");
@@ -165,8 +164,8 @@ public class StreamingService {
         genreList.add("16: Fantasy");
 
         String output = "";
-        for(int i = 0 ; i < genreList.size();i++){
-            output = output+genreList.get(i)+"\n";
+        for (int i = 0; i < genreList.size(); i++) {
+            output = output + genreList.get(i) + "\n";
         }
         System.out.println(output);
     }
@@ -211,8 +210,6 @@ public class StreamingService {
             System.out.println("Nixen bixen");
         }
     }
-
-
 
     public void searchByName() {
         String input = ui.getInput("Type to search titles");
@@ -300,7 +297,8 @@ public class StreamingService {
 
     public void displayMyList() {
 
-    }
+        }
+
     public void mediaOptions(Media m) {
         String userInput = ui.getInput("\nPick a function:" +
                 "\n1) Play selected media" +
@@ -319,6 +317,7 @@ public class StreamingService {
             mainMenu();
         }
     }
+
     public void mediaNotFoundOptions() {
         String input = ui.getInput("Select an option:" +
                 "\n1) Display our catalog" +
@@ -333,5 +332,3 @@ public class StreamingService {
         }
     }
 }
-
-
