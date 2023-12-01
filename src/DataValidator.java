@@ -4,8 +4,9 @@ import java.util.Scanner;
 public class DataValidator {
     Scanner scanner = new Scanner(System.in);
     TextUI ui = new TextUI();
-
+    DataBaseIO db = new DataBaseIO();
     // Tjekker om en String (password) indeholder minimum et stort bogstav
+
     public boolean checkUpperCase(String str) {
         char c;
         boolean upperCaseFlag = false;
@@ -77,30 +78,4 @@ public class DataValidator {
         }
         return true;
     }
-
-    public boolean checkLoginUsername(ArrayList<String> users, String enteredUsername) {
-        for (String user : users) {
-            String[] userInfo = user.split(",");
-            String username = userInfo[0];
-            if (username.contentEquals(enteredUsername)) {
-                return true;  // Username exists
-            }
-        }
-        ui.displayMessage("Brugernavn findes ikke, prøv igen ");
-        return false;
-    }
-
-    public boolean checkLoginPassword(ArrayList<String> users, String enteredPassword) {
-        for (String user : users) {
-            String[] userInfo = user.split(",");
-            String password = userInfo[1];
-            if (password.contentEquals(enteredPassword)) {
-                return true;  // Password exists
-            }
-        }
-        ui.displayMessage("Forkert kodeord, prøv igen ");
-        return false;
-    }
-
-
 }

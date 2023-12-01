@@ -2,10 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StreamingService {
-    private String userInputUsername;
     Movie movie = new Movie("", "", "", 0);
     Series series = new Series("", "", "", 0, "", "");
     MediaContent mediaContent = new MediaContent("", "", "", 0, "", "");
+    private String userInputUsername;
+    private String userInputPassword;
+    User user = new User(userInputUsername, userInputPassword);
     private List<Movie> movies = movie.movieSeparator();
     private List<Series> serie = series.seriesSeparator();
     private List<MediaContent> mediaContents = mediaContent.mediaContentSeparator();
@@ -39,55 +41,55 @@ public class StreamingService {
     public void mainMenu() {
         String i = ui.getInput("Du har følgende valgmuligheder:" +
                 "\n1) Vis listen over alle film" +
-                "\n2) Søge efter en bestemt film" +
-                "\n3) Søge alle film i en kategori" +
-                "\n4) Se din liste over sete film" +
-                "\n5) Se din liste over gemte film" +
-                "\n6) logout");
+                "\n2) Vis listen over alle serier" +
+                "\n3) Søge efter en bestemt film" +
+                "\n4) Søge alle film i en kategori" +
+                "\n5) Se din liste over sete film" +
+                "\n6) Se din liste over gemte film" +
+                "\n7) logout");
         if (i.equals("1")) {
-            displayMovies();
+            db.showMovieDatabase();
         }
         if (i.equals("2")) {
-            searchByName();
+            db.showSeriesDatabase();
         }
         if (i.equals("3")) {
+            searchByName();
+        }
+        if (i.equals("4")) {
             displayGenre();
             searchByGenre();
         }
-        if (i.equals("4")) {
+        if (i.equals("5")) {
             displayWatchedList();
         }
-        if (i.equals("5")) {
+        if (i.equals("6")) {
             displayMyList();
         }
-        if (i.equals("6")) {
+        if (i.equals("7")) {
             logout();
         }
     }
 
     public void login() {
         userInputUsername = ui.getInput("Brugernavn: ");
-        if (dataValidator.checkLoginUsername(userData, userInputUsername)) {
-            loginPassword(userInputUsername);
-        } else {
-            login();
-        }
-    }
+        userInputPassword = ui.getInput("Password: ");
 
-    public void loginPassword(String user) {
-        String userInputPassword = ui.getInput("Kodeord: ");
-        if (dataValidator.checkLoginPassword(userData, userInputPassword)) {
-            ui.displayMessage("Du er nu logget ind som: " + user);
+        User authenticatedUser = db.getAuthenticatedUser(userInputUsername, userInputPassword);
+
+        if (authenticatedUser != null && authenticatedUser.getUsername().equals(userInputUsername)
+                && authenticatedUser.getPassword().equals(userInputPassword)) {
+            // loginPassword(userInputUsername);
             mainMenu();
         } else {
-            loginPassword(user);
+            login();
         }
     }
 
     public void logout() {
         String i = ui.getInput("Er du sikker du vil logge ud, bro?\nTast 1 hvis du gerne vil logge ud:\nTast 2 hvis du ikke vil logge ud:");
         if (i.equals("1")) {
-            io.saveMyListData(userInputUsername,myList.getMyList());
+            io.saveMyListData(userInputUsername, myList.getMyList());
             startMenu();
         } else if (i.equals("2")) {
             mainMenu();
@@ -115,9 +117,7 @@ public class StreamingService {
 
     public void registerUser(String username, String password) {
         User user = new User(username, password);
-        userData.add(user.toString());
-        users.add(user);
-        io.saveUserData(users);
+        db.saveUserData(username, password);
     }
 
     public void removeUser() {
@@ -178,39 +178,6 @@ public class StreamingService {
         }
     }
 
-    public void displaySeries() {
-        //-----------Printer listen af SERIES i en pen format------------
-        List<Series> serie = series.seriesSeparator();
-        for (Series s : serie) {
-            System.out.println(s);
-        }
-    }
-
-    /*
-    public void displayMediaContent() {
-        //-----------Printer listen af movies og series i en pen format------------
-        List<MediaContent> mediaContents = mediaContent.mediaContentSeparator();
-
-        for (MediaContent mc : mediaContents) {
-            System.out.println(mc);
-        }
-        if(mediaContents.isEmpty()){
-            System.out.println("Nixen bixen");
-
-        }
-    }
-*/
-    public void displayMediaContent() {
-        // Use the existing mediaContents list
-        for (MediaContent mc : mediaContents) {
-            System.out.println(mc);
-        }
-
-        if (mediaContents.isEmpty()) {
-            System.out.println("Nixen bixen");
-        }
-    }
-
     public void searchByName() {
         String input = ui.getInput("Type to search titles");
         String[] inputTitles = input.split(", "); // Split the user input into an array of genres
@@ -246,14 +213,6 @@ public class StreamingService {
 
         }
     }
-
-    public void searchByReleaseDate() { //NICETOHAVE
-
-    }
-
-    public void searchByRating() { // NICE TO HAVE
-    }
-
 
     public void searchByGenre() {
         displayGenre();
@@ -297,7 +256,7 @@ public class StreamingService {
 
     public void displayMyList() {
 
-        }
+    }
 
     public void mediaOptions(Media m) {
         String userInput = ui.getInput("\nPick a function:" +
@@ -324,7 +283,8 @@ public class StreamingService {
                 "\n2) Search again" +
                 "\n)3 Go back to main menu");
         if (input.equalsIgnoreCase("1")) {
-            displayMovies();
+            db.showMovieDatabase();
+            db.showSeriesDatabase();
         } else if (input.equalsIgnoreCase("2")) {
             searchByName();
         } else if (input.equalsIgnoreCase("3")) {
