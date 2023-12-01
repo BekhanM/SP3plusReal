@@ -2,6 +2,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataValidator {
+    static final String DB_URL = "jdbc:mysql://localhost/my_streaming";
+
+    // Database credentials
+    static final String USER = "root";
+    static final String PASS = "Heisenberg2001!";
+
     Scanner scanner = new Scanner(System.in);
     TextUI ui = new TextUI();
     DataBaseIO db = new DataBaseIO();
