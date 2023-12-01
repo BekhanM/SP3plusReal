@@ -65,8 +65,8 @@ public class DataValidator {
         }
     }
 
-    // Skal tjekke om username allerede eksisterer ved at sammenligne indhold i arraylist med ny brugerinput
-    public boolean checkRegisterUsername(ArrayList<String> users, String enteredUsername) {
+    // Skal tjekke om username/password allerede eksisterer ved at sammenligne indhold i arraylist med ny brugerinput
+    public boolean checkRegisterUsernamePassword(ArrayList<String> users, String enteredUsername) {
 
         for (String user : users) {
             String[] userInfo = user.split(",");

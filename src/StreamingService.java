@@ -22,6 +22,7 @@ public class StreamingService {
     private TextUI ui = new TextUI();
     private List<Content> content;
     private MyList myList = new MyList();
+    private DataBaseIO db = new DataBaseIO();
 
     public void startMenu() {
         ui.displayMessage("Hej og velkommen til landets værste streamingtjeneste");
@@ -101,7 +102,7 @@ public class StreamingService {
 
     public void addUser() {
         String userInputUsername = ui.getInput("Indtast et nyt brugernavn: ");
-        if (dataValidator.checkRegisterUsername(userData, userInputUsername)) {
+        if (dataValidator.checkRegisterUsernamePassword(userData, userInputUsername)) {
             String userInputPassword = ui.getInput("Indsæt ønskede kodeord\nKodeord skal minimum være 8 karakterer, skal have et tal og et stort bogstav");
             dataValidator.validatePassword(userInputPassword);
             String userInputPassword2 = ui.getInput("Gentag kodeord");
@@ -120,6 +121,7 @@ public class StreamingService {
         db.saveUserData(username, password);
     }
 
+    /*
     public void removeUser() {
         String i = ui.getInput("Er du sikker du vil fjerne din konto ud, bro?\nTast 1 hvis du gerne vil slette din konto:\nTast 2 hvis du ikke vil slette din konto:");
         if (i.equals("1")) {
@@ -144,6 +146,7 @@ public class StreamingService {
         }
         io.saveUserData(users);
     }
+     */
 
     public void displayGenre() {
         genreList.add("1: Drama");
@@ -248,7 +251,6 @@ public class StreamingService {
             displayGenre();
         }
     }
-
 
     public void displayWatchedList() {
 

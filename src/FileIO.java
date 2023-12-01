@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class FileIO implements IO {
 
-
     @Override
     public ArrayList<String> readUserData() {
         ArrayList<String> userData = new ArrayList<>();
