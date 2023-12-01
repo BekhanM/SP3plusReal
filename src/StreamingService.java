@@ -170,7 +170,7 @@ public class StreamingService {
         for (int i = 0; i < genreList.size(); i++) {
             output = output + genreList.get(i) + "\n";
         }
-        System.out.println(output);
+        ui.displayMessage(output);
     }
 
     public void displayMovies() {
