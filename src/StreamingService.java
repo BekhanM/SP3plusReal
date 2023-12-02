@@ -94,7 +94,7 @@ public class StreamingService {
             String userInputPassword2 = ui.getInput("Gentag kodeord");
             if (userInputPassword.equals(userInputPassword2)) {
                 registerUser(userInputUsername, userInputPassword);
-                ui.displayMessage("Du er nu registreret som bruger:");
+                ui.displayMessage("Du er nu registreret som bruger: " + userInputUsername);
                 startMenu();
             }
         } else {
@@ -158,7 +158,7 @@ public class StreamingService {
     }
 
     public void mediaOptions() {
-        String userInput = ui.getInput("\nHvad vil du gør nu så, bro?:" + "\n1) Se filmen" + "\n2) Tilføje til min liste, så jeg kan se den bagefter" + "\n3) Tilbage til menuen");
+        String userInput = ui.getInput("Hvad vil du gør nu så, bro?:" + "\n1) Se filmen" + "\n2) Tilføje til min liste, så jeg kan se den bagefter" + "\n3) Tilbage til menuen");
 
         if (userInput.equals("1")) {
             ui.displayMessage("*Afspiller*");
