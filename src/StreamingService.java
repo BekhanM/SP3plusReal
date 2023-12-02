@@ -1,34 +1,17 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class StreamingService {
-    Movie movie = new Movie("", "", "", 0);
-    Series series = new Series("", "", "", 0, "", "");
-    MediaContent mediaContent = new MediaContent("", "", "", 0, "", "");
     private String userInputUsername;
     private String userInputPassword;
-    User user = new User(userInputUsername, userInputPassword);
-    private List<Movie> movies = movie.movieSeparator();
-    private List<Series> serie = series.seriesSeparator();
-    private List<MediaContent> mediaContents = mediaContent.mediaContentSeparator();
-    private List<String> genreList = new ArrayList<>();
     private FileIO io = new FileIO();
     private ArrayList<String> userData = io.readUserData();
-    private ArrayList<String> movieData = io.readMovieData();
-    private ArrayList<String> seriesData = io.readSeriesData();
-    private ArrayList<String> mediaContentData = io.readMediaData();
     private DataValidator dataValidator = new DataValidator();
-    private ArrayList<User> users = new ArrayList<>();
     private TextUI ui = new TextUI();
-    private List<Content> content;
-    private MyList myList = new MyList();
     private DataBaseIO db = new DataBaseIO();
 
     public void startMenu() {
-        ui.displayMessage("Hej og velkommen til landets værste streamingtjeneste");
-        String i = ui.getInput("Vælg en funktion:" +
-                "\n1) Logge ind." +
-                "\n2) Lave en ny bruger.");
+        ui.displayMessage("Hej og velkommen til landets streamingstjeneste, bro!");
+        String i = ui.getInput("Vælg en funktion, bro:" + "\n1) Logge ind." + "\n2) Lave en ny bruger.");
         if (i.equals("1")) {
             login();
         } else if (i.equals("2")) {
@@ -47,19 +30,22 @@ public class StreamingService {
                 "\n4) Søge alle film i en kategori" +
                 "\n5) Se din liste over sete film" +
                 "\n6) Se din liste over gemte film" +
-                "\n7) logout");
+                "\n7) Slet dit brugerdata fra systemet :(" +
+                "\n8) Log ud");
         if (i.equals("1")) {
             db.showMovieDatabase();
+            searchByName();
         }
         if (i.equals("2")) {
             db.showSeriesDatabase();
+            searchByName();
         }
         if (i.equals("3")) {
             searchByName();
         }
         if (i.equals("4")) {
-            displayGenre();
-            searchByGenre();
+            db.searchGenreDatabase();
+            searchByName();
         }
         if (i.equals("5")) {
             displayWatchedList();
@@ -68,6 +54,9 @@ public class StreamingService {
             displayMyList();
         }
         if (i.equals("7")) {
+            removeUser(userInputUsername, userInputPassword);
+        }
+        if (i.equals("8")) {
             logout();
         }
     }
@@ -78,9 +67,7 @@ public class StreamingService {
 
         User authenticatedUser = db.getAuthenticatedUser(userInputUsername, userInputPassword);
 
-        if (authenticatedUser != null && authenticatedUser.getUsername().equals(userInputUsername)
-                && authenticatedUser.getPassword().equals(userInputPassword)) {
-            // loginPassword(userInputUsername);
+        if (authenticatedUser != null && authenticatedUser.getUsername().equals(userInputUsername) && authenticatedUser.getPassword().equals(userInputPassword)) {
             mainMenu();
         } else {
             login();
@@ -90,7 +77,6 @@ public class StreamingService {
     public void logout() {
         String i = ui.getInput("Er du sikker du vil logge ud, bro?\nTast 1 hvis du gerne vil logge ud:\nTast 2 hvis du ikke vil logge ud:");
         if (i.equals("1")) {
-            io.saveMyListData(userInputUsername, myList.getMyList());
             startMenu();
         } else if (i.equals("2")) {
             mainMenu();
@@ -117,138 +103,49 @@ public class StreamingService {
     }
 
     public void registerUser(String username, String password) {
-        User user = new User(username, password);
         db.saveUserData(username, password);
     }
 
-    /*
-    public void removeUser() {
-        String i = ui.getInput("Er du sikker du vil fjerne din konto ud, bro?\nTast 1 hvis du gerne vil slette din konto:\nTast 2 hvis du ikke vil slette din konto:");
+
+    public void removeUser(String username, String password) {
+        String i = ui.getInput("Er du sikker du vil fjerne din konto, bro?" +
+                "\n1) Hvis du gerne vil slette din konto:" +
+                "\n2) Hvis du ikke vil slette din konto:");
+
         if (i.equals("1")) {
-            String uname = ui.getInput("Indtast brugernavn: ");
-            String pword = ui.getInput("Indtast kodeord: ");
-            terminateUser(uname, pword);
+            db.removeUserData(username, password);
+
+            userInputUsername = null;
+            userInputPassword = null;
+
+            ui.displayMessage("Din konto er blevet fjernet. Tak for besøget!");
+
+            startMenu();
         } else if (i.equals("2")) {
             mainMenu();
+        } else {
+            ui.displayMessage("Forkert valg. Vælg funktion 1 eller 2.");
+            removeUser(username, password);
         }
     }
 
-    public void terminateUser(String username, String password) {
-        User userToRemove = new User(username, password);
-        for (User currentUser : users) {
-            if (currentUser.equals(userToRemove)) {
-            }
-        }
-
-        for (User user : users) {
-            users.remove(user);
-            userData.remove(user.toString());
-        }
-        io.saveUserData(users);
-    }
-     */
-
-    public void displayGenre() {
-        genreList.add("1: Drama");
-        genreList.add("2: Crime");
-        genreList.add("3: Biography");
-        genreList.add("4: History");
-        genreList.add("5: Romance");
-        genreList.add("6: War");
-        genreList.add("7: Adventure");
-        genreList.add("8: Family");
-        genreList.add("9: Mystery");
-        genreList.add("10: Sport");
-        genreList.add("11: Thriller");
-        genreList.add("12: Music/Musical");
-        genreList.add("13: Sci-Fi");
-        genreList.add("14: Horror");
-        genreList.add("15: Film-Noir");
-        genreList.add("16: Fantasy");
-
-        String output = "";
-        for (int i = 0; i < genreList.size(); i++) {
-            output = output + genreList.get(i) + "\n";
-        }
-        ui.displayMessage(output);
-    }
-
-    public void displayMovies() {
-        //-----------Printer listen af movies i en pen format------------
-        List<Movie> movies = movie.movieSeparator();
-        for (Movie m : movies) {
-            System.out.println(m);
-        }
-    }
 
     public void searchByName() {
-        String input = ui.getInput("Type to search titles");
-        String[] inputTitles = input.split(", "); // Split the user input into an array of genres
+        // Call the search method
+        int userChoice = db.searchMediaContentDatabase();
 
-        boolean found = false;
-
-        for (MediaContent m : mediaContents) {
-            String[] mediaContentTitles = m.getTitle().split(", "); // Split movie genres into an array
-            boolean matchFound = false;
-
-            // Check if any movie genre matches any of the input genres
-            for (String title : inputTitles) {
-                for (String mediaContentTitle : mediaContentTitles) {
-                    if (mediaContentTitle.equalsIgnoreCase(title)) {
-                        matchFound = true;
-                    }
-                }
-                if (matchFound) {
-                    break;
-                }
-            }
-
-            if (matchFound) {
-                ui.displayMessage("Media found: ");
-                ui.displayMessage(m.toString());
-                mediaOptions(m);
-                found = true;
-            }
-        }
-
-        if (!found) {
-            mediaNotFoundOptions();
-
-        }
-    }
-
-    public void searchByGenre() {
-        displayGenre();
-        String input = ui.getInput("Type to search in genre");
-        String[] inputGenres = input.split(", "); // Split the user input into an array of genres
-
-        boolean found = false;
-
-        for (MediaContent m : mediaContents) {
-            String[] mediaContentGenres = m.getGenre().split(", "); // Split movie genres into an array
-            boolean matchFound = false;
-
-            // Check if any movie genre matches any of the input genres
-            for (String genre : inputGenres) {
-                for (String mediaContentGenre : mediaContentGenres) {
-                    if (mediaContentGenre.equalsIgnoreCase(genre)) {
-                        matchFound = true;
-                    }
-                }
-                if (matchFound) {
-                    break;
-                }
-            }
-
-            if (matchFound) {
-                ui.displayMessage(m.toString());
-                found = true;
-            }
-        }
-
-        if (!found) {
-            mediaNotFoundOptions();
-            displayGenre();
+        // Process user choice
+        switch (userChoice) {
+            case 1:
+                mediaOptions();
+                break;
+            case 2:
+                mediaNotFoundOptions();
+                break;
+            default:
+                ui.displayMessage("Er du fuld?");
+                searchByName();
+                break;
         }
     }
 
@@ -260,19 +157,14 @@ public class StreamingService {
 
     }
 
-    public void mediaOptions(Media m) {
-        String userInput = ui.getInput("\nPick a function:" +
-                "\n1) Play selected media" +
-                "\n2) Add media to My List" +
-                "\n3) Go back to main menu");
+    public void mediaOptions() {
+        String userInput = ui.getInput("\nHvad vil du gør nu så, bro?:" + "\n1) Se filmen" + "\n2) Tilføje til min liste, så jeg kan se den bagefter" + "\n3) Tilbage til menuen");
 
         if (userInput.equals("1")) {
-            ui.displayMessage("*Playing media*");
+            ui.displayMessage("*Afspiller*");
         }
         if (userInput.equals("2")) {
-            myList.addToMyList(mediaContents.get(mediaContents.indexOf(m))); // skal ikke hardcodes
-            ui.displayMessage("Media successfully added: " + m);
-            mediaOptions(m);
+
         }
         if (userInput.equals("3")) {
             mainMenu();
@@ -280,13 +172,12 @@ public class StreamingService {
     }
 
     public void mediaNotFoundOptions() {
-        String input = ui.getInput("Select an option:" +
-                "\n1) Display our catalog" +
-                "\n2) Search again" +
-                "\n)3 Go back to main menu");
+        String input = ui.getInput("Ubeslutsom type." + "\n1) Hvis du h" +
+                "ar du brug for en hånd, kan du se hvad vi har" + "\n2) Søg igen" + "\n3) Tilbage til menuen");
         if (input.equalsIgnoreCase("1")) {
             db.showMovieDatabase();
             db.showSeriesDatabase();
+            searchByName();
         } else if (input.equalsIgnoreCase("2")) {
             searchByName();
         } else if (input.equalsIgnoreCase("3")) {

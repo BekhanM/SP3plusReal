@@ -9,6 +9,7 @@ public class DataBaseIO {
     String password1;
     User user = new User(username1, password1);
     TextUI ui = new TextUI();
+    int userChoice = 0;
 
     public User getAuthenticatedUser(String name, String puffPass) {
         Connection conn = null;
@@ -33,9 +34,11 @@ public class DataBaseIO {
 
             if (rs.next()) {
                 user = new User(name, puffPass);
-                ui.displayMessage("User/password correct!");
+                ui.displayMessage("Nice dude, username/password passer!");
+                ui.displayMessage("Velkommen, " + name + " the GOAT!");
+                ui.displayMessage("Ser stærk ud i dag, " + name + "!");
             } else {
-                ui.displayMessage("User/password incorrect?");
+                ui.displayMessage("Brugernavn findes ikke, ellers kan du ikke stave, dumbass.");
             }
             stmt.close();
             conn.close();
@@ -60,7 +63,7 @@ public class DataBaseIO {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             //STEP 3: Execute a query
-           // ui.displayMessage("Creating statement...");
+            // ui.displayMessage("Creating statement...");
             String sql = "SELECT name, genre, year, rating FROM my_streaming.movie;";
             stmt = conn.prepareStatement(sql);
 
@@ -79,8 +82,7 @@ public class DataBaseIO {
                 String formatString = "Name: %-45sGenre: %-35sRelease Date: %-12sRating:%-5.2f";
 
                 String formattedOutput = String.format(formatString, name, genre, year, rating);
-
-                ui.displayMessage(formattedOutput);
+                System.out.println(formattedOutput);
 
             }
             //STEP 5: Clean-up environment
@@ -96,13 +98,11 @@ public class DataBaseIO {
         } finally {
 
             try {
-                if (stmt != null)
-                    stmt.close();
+                if (stmt != null) stmt.close();
             } catch (SQLException se2) {
             }
             try {
-                if (conn != null)
-                    conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException se) {
                 se.printStackTrace();
             }//end finally try
@@ -131,8 +131,8 @@ public class DataBaseIO {
             //STEP 4: Extract data from result set
             while (rs.next()) {
 
-                String genre = rs.getString("Genre");
                 String name = rs.getString("Name");
+                String genre = rs.getString("Genre");
                 String year = rs.getString("Year");
                 double rating = rs.getDouble("Rating");
                 String seasons_episodes = rs.getString("Seasons_episodes");
@@ -141,7 +141,7 @@ public class DataBaseIO {
 
                 String formattedOutput = String.format(formatString, name, genre, year, rating, seasons_episodes);
 
-                ui.displayMessage(formattedOutput);
+                System.out.println(formattedOutput);
 
             }
             //STEP 5: Clean-up environment
@@ -158,18 +158,149 @@ public class DataBaseIO {
         } finally {
 
             try {
-                if (stmt != null)
-                    stmt.close();
+                if (stmt != null) stmt.close();
             } catch (SQLException se2) {
             }
             try {
-                if (conn != null)
-                    conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException se) {
                 se.printStackTrace();
             }
         }
     }
+
+    public int searchMediaContentDatabase() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            //STEP 1: Register JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            //STEP 2: Open a connection
+            //ui.displayMessage("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 3: Execute a query
+            // ui.displayMessage("Creating statement...");
+            String s = ui.getInput("Vælg/søg efter det du vil se, bro.");
+            String sql = "SELECT movieID as mediaID, name, genre, year, rating, null as seasons_episodes FROM my_streaming.movie WHERE INSTR(name, '" + s + "') > 0 " +
+                         "UNION " + "SELECT series_ID as mediaID, name, genre, year, rating, seasons_episodes FROM my_streaming.series WHERE INSTR(name, '" + s + "') > 0";
+            stmt = conn.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //STEP 4: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                String name = rs.getString("Name");
+                String genre = rs.getString("Genre");
+                String year = rs.getString("Year");
+                double rating = rs.getDouble("Rating");
+
+                String mediaContentName = "\nName: " + name + "\nGenre: " + genre + "\nRelease date: " + year + "\nRating: " + rating + "\n";
+
+                if (rs.getString("seasons_episodes") != null) {
+                    String seasons_episodes = rs.getString("seasons_episodes");
+                    mediaContentName += "Seasons and episodes: " + seasons_episodes + "\n";
+                }
+                String choice = ui.getInput("OK, bro. Er det så det her du vil se? \n" + mediaContentName + "\n1) Ja tjak" + "\n2) Nej tjak");
+
+                if (choice.equals("1")) {
+                    userChoice = 1;
+                } else if (choice.equals("2")) {
+                    userChoice = 2;
+                } else {
+                    ui.displayMessage("Forkert valg, dumbass. Vælg funktion 1 eller 2.");
+                    userChoice = -1;
+                }
+            }
+
+            //STEP 5: Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+        return userChoice;
+    }
+
+    public void searchGenreDatabase() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            //STEP 1: Register JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            //STEP 2: Open a connection
+            //ui.displayMessage("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 3: Execute a query
+            // ui.displayMessage("Creating statement...");
+            String s = ui.getInput("Søg efter den genre du gerne vil se, bro.");
+            String sql = "SELECT movieID as mediaID, name, genre, year, rating, null as seasons_episodes FROM my_streaming.movie WHERE INSTR(genre, '" + s + "') > 0 " +
+                    "UNION " + "SELECT series_ID as mediaID, name, genre, year, rating, seasons_episodes FROM my_streaming.series WHERE INSTR(genre, '" + s + "') > 0";
+            stmt = conn.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //STEP 4: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                String name = rs.getString("Name");
+                String genre = rs.getString("Genre");
+                String year = rs.getString("Year");
+                double rating = rs.getDouble("Rating");
+
+                String mediaContentName = "\nName: " + name + "\nGenre: " + genre + "\nRelease date: " + year + "\nRating: " + rating + "\n";
+
+                if (rs.getString("seasons_episodes") != null) {
+                    String seasons_episodes = rs.getString("seasons_episodes");
+                    mediaContentName += "Seasons and episodes: " + seasons_episodes;
+                }
+                System.out.println(mediaContentName);
+            }
+
+            //STEP 5: Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }
+    }
+
 
     public void saveUserData(String newName, String newPassword) {
         Connection conn = null;
@@ -200,6 +331,35 @@ public class DataBaseIO {
             e.printStackTrace();
         }
     }
+
+    public void removeUserData(String newName, String newPassword) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            String sql = "DELETE FROM USER WHERE name = ? AND password = ?";
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, newName);
+            stmt.setString(2, newPassword);
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                ui.displayMessage("Brugeren er fjernet");
+            } else {
+                ui.displayMessage("Mislykkedes at fjerne brugeren");
+            }
+
+            stmt.close();
+            conn.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void displayWatchedList() {
 

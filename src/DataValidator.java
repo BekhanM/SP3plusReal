@@ -27,7 +27,7 @@ public class DataValidator {
             if (upperCaseFlag && lowerCaseFlag)
                 return true;
         }
-        ui.displayMessage("Password must contain at least one uppercase letter");
+        ui.displayMessage("Kodeordet skulle have et stort bogstav, sgu da.");
         return false;
     }
 
@@ -37,7 +37,7 @@ public class DataValidator {
         if (str.length() < 129 && str.length() > 7) {
             return true;
         } else {
-            ui.displayMessage("Password must be at least 8 characters long");
+            ui.displayMessage("Kodeordet skulle være mindst 8 karakter langt, for satan.");
             return false;
         }
     }
@@ -54,7 +54,7 @@ public class DataValidator {
         }
 
         if (!numberFlag) {
-            ui.displayMessage("Password must contain at least one number");
+            ui.displayMessage("Kodeordet skulle have et fucking tal.");
         }
         return false;
     }
