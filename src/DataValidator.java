@@ -11,7 +11,6 @@ public class DataValidator {
     Scanner scanner = new Scanner(System.in);
     TextUI ui = new TextUI();
     DataBaseIO db = new DataBaseIO();
-    // Tjekker om en String (password) indeholder minimum et stort bogstav
 
     public boolean checkUpperCase(String str) {
         char c;

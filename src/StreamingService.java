@@ -1,17 +1,20 @@
 import java.util.ArrayList;
 
 public class StreamingService {
+    private final FileIO io = new FileIO();
+    private final ArrayList<String> userData = io.readUserData();
+    private final DataValidator dataValidator = new DataValidator();
+    private final TextUI ui = new TextUI();
+    private final DataBaseIO db = new DataBaseIO();
     private String userInputUsername;
     private String userInputPassword;
-    private FileIO io = new FileIO();
-    private ArrayList<String> userData = io.readUserData();
-    private DataValidator dataValidator = new DataValidator();
-    private TextUI ui = new TextUI();
-    private DataBaseIO db = new DataBaseIO();
 
     public void startMenu() {
         ui.displayMessage("Hej og velkommen til landets streamingstjeneste, bro!");
-        String i = ui.getInput("Vælg en funktion, bro:" + "\n1) Logge ind." + "\n2) Lave en ny bruger.");
+        String i = ui.getInput("""
+                Vælg en funktion, bro:
+                1) Logge ind.
+                2) Lave en ny bruger.""");
         if (i.equals("1")) {
             login();
         } else if (i.equals("2")) {
@@ -23,42 +26,50 @@ public class StreamingService {
     }
 
     public void mainMenu() {
-        String i = ui.getInput("Du har følgende valgmuligheder:" +
-                "\n1) Vis listen over alle film" +
-                "\n2) Vis listen over alle serier" +
-                "\n3) Søge efter en bestemt film" +
-                "\n4) Søge alle film i en kategori" +
-                "\n5) Se din liste over sete film" +
-                "\n6) Se din liste over gemte film" +
-                "\n7) Slet dit brugerdata fra systemet :(" +
-                "\n8) Log ud");
-        if (i.equals("1")) {
-            db.showMovieDatabase();
-            searchByName();
+        String i = ui.getInput("""
+                Du har følgende valgmuligheder:
+                1) Vis listen over alle film
+                2) Vis listen over alle serier
+                3) Søge efter en bestemt film
+                4) Søge alle film i en kategori
+                5) Se din liste over sete film
+                6) Se din liste over gemte film
+                7) Slet dit brugerdata fra systemet :(
+                8) Log ud""");
+        switch (i) {
+            case "1":
+                displayMovies();
+                searchByName();
+                break;
+            case "2":
+                displaySeries();
+                searchByName();
+                break;
+            case "3":
+                searchByName();
+                break;
+            case "4":
+                db.searchGenreDatabase();
+                searchByName();
+                break;
+            case "5":
+                displayWatchedList();
+                break;
+            case "6":
+                displayMyList();
+                break;
+            case "7":
+                removeUser(userInputUsername, userInputPassword);
+                break;
+            case "8":
+                logout();
+                break;
+            default:
+                ui.displayMessage("Hvad fanden laver du?");
+                mainMenu();
+                break;
         }
-        if (i.equals("2")) {
-            db.showSeriesDatabase();
-            searchByName();
-        }
-        if (i.equals("3")) {
-            searchByName();
-        }
-        if (i.equals("4")) {
-            db.searchGenreDatabase();
-            searchByName();
-        }
-        if (i.equals("5")) {
-            displayWatchedList();
-        }
-        if (i.equals("6")) {
-            displayMyList();
-        }
-        if (i.equals("7")) {
-            removeUser(userInputUsername, userInputPassword);
-        }
-        if (i.equals("8")) {
-            logout();
-        }
+
     }
 
     public void login() {
@@ -86,6 +97,7 @@ public class StreamingService {
         }
     }
 
+
     public void addUser() {
         String userInputUsername = ui.getInput("Indtast et nyt brugernavn: ");
         if (dataValidator.checkRegisterUsernamePassword(userData, userInputUsername)) {
@@ -108,9 +120,10 @@ public class StreamingService {
 
 
     public void removeUser(String username, String password) {
-        String i = ui.getInput("Er du sikker du vil fjerne din konto, bro?" +
-                "\n1) Hvis du gerne vil slette din konto:" +
-                "\n2) Hvis du ikke vil slette din konto:");
+        String i = ui.getInput("""
+                Er du sikker du vil fjerne din konto, bro?
+                1) Hvis du gerne vil slette din konto:
+                2) Hvis du ikke vil slette din konto:""");
 
         if (i.equals("1")) {
             db.removeUserData(username, password);
@@ -149,6 +162,14 @@ public class StreamingService {
         }
     }
 
+    public void displayMovies() {
+        db.showMovieDatabase();
+    }
+
+    public void displaySeries() {
+        db.showSeriesDatabase();
+    }
+
     public void displayWatchedList() {
 
     }
@@ -158,13 +179,17 @@ public class StreamingService {
     }
 
     public void mediaOptions() {
-        String userInput = ui.getInput("Hvad vil du gør nu så, bro?:" + "\n1) Se filmen" + "\n2) Tilføje til min liste, så jeg kan se den bagefter" + "\n3) Tilbage til menuen");
+        String userInput = ui.getInput("""
+                Hvad vil du så gør nu, bro?:
+                1) Se filmen
+                2) Tilføje til min liste, så jeg kan se den bagefter
+                3) Tilbage til menuen""");
 
         if (userInput.equals("1")) {
             ui.displayMessage("*Afspiller*");
         }
         if (userInput.equals("2")) {
-
+            displayMyList();
         }
         if (userInput.equals("3")) {
             mainMenu();
@@ -172,11 +197,14 @@ public class StreamingService {
     }
 
     public void mediaNotFoundOptions() {
-        String input = ui.getInput("Ubeslutsom type." + "\n1) Hvis du h" +
-                "ar du brug for en hånd, kan du se hvad vi har" + "\n2) Søg igen" + "\n3) Tilbage til menuen");
+        String input = ui.getInput("""
+                Ubeslutsom type.
+                1) Hvis du har du brug for en hånd, kan du se hvad vi har
+                2) Søg igen
+                3) Tilbage til menuen""");
         if (input.equalsIgnoreCase("1")) {
-            db.showMovieDatabase();
-            db.showSeriesDatabase();
+            displayMovies();
+            displaySeries();
             searchByName();
         } else if (input.equalsIgnoreCase("2")) {
             searchByName();

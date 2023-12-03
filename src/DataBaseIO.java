@@ -184,7 +184,7 @@ public class DataBaseIO {
             // ui.displayMessage("Creating statement...");
             String s = ui.getInput("Vælg/søg efter det du vil se, bro.");
             String sql = "SELECT movieID as mediaID, name, genre, year, rating, null as seasons_episodes FROM my_streaming.movie WHERE INSTR(name, '" + s + "') > 0 " +
-                         "UNION " + "SELECT series_ID as mediaID, name, genre, year, rating, seasons_episodes FROM my_streaming.series WHERE INSTR(name, '" + s + "') > 0";
+                    "UNION " + "SELECT series_ID as mediaID, name, genre, year, rating, seasons_episodes FROM my_streaming.series WHERE INSTR(name, '" + s + "') > 0";
             stmt = conn.prepareStatement(sql);
 
             ResultSet rs = stmt.executeQuery(sql);
@@ -203,7 +203,9 @@ public class DataBaseIO {
                     String seasons_episodes = rs.getString("seasons_episodes");
                     mediaContentName += "Seasons and episodes: " + seasons_episodes + "\n";
                 }
-                String choice = ui.getInput("OK, bro. Er det så det her du vil se? \n" + mediaContentName + "\n1) Ja tjak" + "\n2) Nej tjak");
+                String choice = ui.getInput("OK, bro. Er det så det her du leder efter? \n" + mediaContentName +
+                        "\n1) Ja tjak" +
+                        "\n2) Nej tjak");
 
                 if (choice.equals("1")) {
                     userChoice = 1;
