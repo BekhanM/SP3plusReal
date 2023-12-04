@@ -278,7 +278,7 @@ public class DataBaseIO {
                     String seasons_episodes = rs.getString("seasons_episodes");
                     mediaContentGenre += "Seasons and episodes: " + seasons_episodes;
                 }
-                ui.displayMessage(mediaContentGenre);
+                System.out.println(mediaContentGenre);
             }
 
             //STEP 5: Clean-up environment
