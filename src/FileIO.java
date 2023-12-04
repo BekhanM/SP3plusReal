@@ -31,12 +31,10 @@ public class FileIO implements IO {
             FileWriter writer = new FileWriter(file, true); // true flag for append mode
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-            // If the file doesn't exist or is empty, add headers
             if (!fileExists || file.length() == 0) {
                 bufferedWriter.write("Username,Password" + "\n");
             }
 
-            // Append new data
             for (User c : users) {
                 String textToSave = c.getUsername() + "," + c.getPassword();
                 bufferedWriter.write(textToSave + "\n");

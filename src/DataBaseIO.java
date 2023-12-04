@@ -356,7 +356,7 @@ public class DataBaseIO {
             if (rowsAffected > 0) {
                 ui.displayMessage("Brugeren er gemt");
             } else {
-                ui.displayMessage("Mislykkes at gemme brugeren");
+                ui.displayMessage("Mislykkedes at gemme brugeren");
             }
 
             stmt.close();
@@ -404,11 +404,9 @@ public class DataBaseIO {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             //STEP 2: Open a connection
-            //ui.displayMessage("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             //STEP 3: Execute a query
-            // ui.displayMessage("Creating statement...");
             String sql = "SELECT watched_content.movieID, movie.name FROM watched_content JOIN movie ON watched_content.movieID = movie.movieID WHERE watched_content.userID = ?";
             stmt = conn.prepareStatement(sql);
 
@@ -416,7 +414,6 @@ public class DataBaseIO {
 
             //STEP 4: Extract data from result set
             while (rs.next()) {
-                //Retrieve by column name
 
 
                 String genre = rs.getString("Genre");

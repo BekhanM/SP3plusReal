@@ -144,10 +144,8 @@ public class StreamingService {
 
 
     public void searchByName() {
-        // Call the search method
         int userChoice = db.searchMediaContentDatabase();
 
-        // Process user choice
         switch (userChoice) {
             case 1:
                 mediaOptions();
