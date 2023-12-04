@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Content {
-    ArrayList<Media> media = new ArrayList<>(); // IKKE SIKKER PÅ AT DET ER EN ARRAYLIST!!
+    ArrayList<Media> media = new ArrayList<>();
 
     public void addMovie() {
         return;

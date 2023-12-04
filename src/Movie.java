@@ -1,11 +1,10 @@
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Movie extends Media
 {
-    private List<Movie>movieList = new ArrayList<>();
+    private final List<Movie>movieList = new ArrayList<>();
 
 
     public Movie(String title,String releaseDate, String genre, double rating) // Tar constructor fra MediaContentContent

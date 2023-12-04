@@ -1,7 +1,3 @@
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Media
 {
     protected String title; // Måske ikke protected kan lige se på det senere
@@ -16,28 +12,6 @@ public abstract class Media
         this.genre = genre;
         this.rating = rating;
         this.releaseDate = releaseDate;
-    }
-
-
-
-    // Laver getters til klassen
-    public String getTitle()
-    {
-        return title;
-    }
-    public String getGenre()
-    {
-        return genre;
-    }
-
-    public double getRating()
-    {
-        return rating;
-    }
-
-    public String getReleaseDate()
-    {
-        return releaseDate;
     }
 
     @Override

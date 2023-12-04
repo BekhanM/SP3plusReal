@@ -82,7 +82,7 @@ public class DataBaseIO {
                 String formatString = "Name: %-45sGenre: %-35sRelease Date: %-12sRating:%-5.2f";
 
                 String formattedOutput = String.format(formatString, name, genre, year, rating);
-                System.out.println(formattedOutput);
+                ui.displayMessage(formattedOutput);
 
             }
             //STEP 5: Clean-up environment
@@ -141,7 +141,7 @@ public class DataBaseIO {
 
                 String formattedOutput = String.format(formatString, name, genre, year, rating, seasons_episodes);
 
-                System.out.println(formattedOutput);
+                ui.displayMessage(formattedOutput);
 
             }
             //STEP 5: Clean-up environment
