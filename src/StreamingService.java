@@ -171,7 +171,11 @@ public class StreamingService {
     }
 
     public void displayWatchedList() {
+        db.displayWatchedList();
+    }
 
+    public void addToWatchedList() {
+        //db.addToWatchedList();
     }
 
     public void displayMyList() {
@@ -187,6 +191,7 @@ public class StreamingService {
 
         if (userInput.equals("1")) {
             ui.displayMessage("*Afspiller*");
+            addToWatchedList();
         }
         if (userInput.equals("2")) {
             displayMyList();
